@@ -9,7 +9,7 @@ import { Element } from "react-scroll";
 
 function HomePage(){
   return(
-    <div className="bg-[#29104A] min-w-[100%] absolute -z-10">
+    <div className="bg-[#29104A] w-full min-h-screen absolute -z-10 overflow-hidden">
       <div className="grid grid-cols-4 gap-[2rem] relative z-[-1] opacity-100 mix-blend-normal " >
         <svg className=" absolute" width="984" height="892" viewBox="0 0 984 892" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_f_24_177)">
