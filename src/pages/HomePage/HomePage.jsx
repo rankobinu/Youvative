@@ -6,9 +6,14 @@ import Testimonials from './Testimonials.jsx';
 import Navbar from '../../components/Navbar.jsx';
 import Footer from '../../components/Footer.jsx';
 import { Element } from "react-scroll";
+import { useEffect } from "react";
 
 function HomePage(){
+  useEffect(() => {
+    document.title = "Youvative | Home";
+  }, []);
   return(
+    
     <div className="bg-[#29104A] w-full min-h-screen absolute -z-[10] ">
       <div className="grid grid-cols-4 gap-[2rem] relative z-[-1] opacity-100 mix-blend-normal " >
         <svg className=" absolute" width="984" height="892" viewBox="0 0 984 892" fill="none" xmlns="http://www.w3.org/2000/svg">
