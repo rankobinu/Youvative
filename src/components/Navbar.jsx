@@ -58,34 +58,34 @@ function Navbar(){
       
 
       <div className="flex   border text-white border-[#50476c] py-1  rounded-full px-0 divide-x divide-[#50476c] ">
-          <button className="px-4 cursor-pointer">
-            <ScrollLink to="home" smooth={true} duration={500}>
+          <button className="px-4 cursor-pointer" >
+            <ScrollLink to="home" smooth={true} duration={500} offset={-100}>
               <p className={` ${activeSection==="home"?"bg-gradient-to-r from-[#1A8CAC] to-[#FFFFFF] text-transparent bg-clip-text hover:from-[#FFFFFF] hover:to-[#1A8CAC] transition-colors duration-300 border-b-1 border-blue-400":"transition-colors duration-300 hover:text-[#8E98A8] cursor-pointer"}  `}>
                 Home
               </p>
             </ScrollLink>
           </button>
 
-          <button className="px-4 cursor-pointer">
-            <ScrollLink to="about" smooth={true} duration={500}>
+          <button className="px-4 cursor-pointer" >
+            <ScrollLink to="about" smooth={true} duration={500} offset={-100}>
               <p className={` ${activeSection==="about"?"bg-gradient-to-r from-[#1A8CAC] to-[#FFFFFF] text-transparent bg-clip-text hover:from-[#FFFFFF] hover:to-[#1A8CAC] transition-colors duration-300 border-b-1 border-blue-400":"transition-colors duration-300 hover:text-[#8E98A8] cursor-pointer"}  `}>About</p>
             </ScrollLink>           
           </button>
 
           <button className="px-4 cursor-pointer">
-            <ScrollLink to="testimonials" smooth={true} duration={500}>
+            <ScrollLink to="testimonials" smooth={true} duration={500} offset={-100}>
               <p className={` ${activeSection==="testimonials"?"bg-gradient-to-r from-[#1A8CAC] to-[#FFFFFF] text-transparent bg-clip-text hover:from-[#FFFFFF] hover:to-[#1A8CAC] transition-colors duration-300 border-b-1 border-blue-400":"transition-colors duration-300 hover:text-[#8E98A8] cursor-pointer"}  `}>Testimonials</p>
             </ScrollLink>
           </button>
           
           <button className="px-4 cursor-pointer">
-            <ScrollLink to="offre" smooth={true} duration={500}>
+            <ScrollLink to="offre" smooth={true} duration={500} offset={-100}>
               <p className={` ${activeSection==="offre"?"bg-gradient-to-r from-[#1A8CAC] to-[#FFFFFF] text-transparent bg-clip-text hover:from-[#FFFFFF] hover:to-[#1A8CAC] transition-colors duration-300 border-b-1 border-blue-400":"transition-colors duration-300 hover:text-[#8E98A8] cursor-pointer"}  `}>Offre</p>
             </ScrollLink>
           </button>
 
           <button className="pl-4  cursor-pointer">
-            <ScrollLink to="our-work" smooth={true} duration={500}>
+            <ScrollLink to="our-work" smooth={true} duration={500} offset={100}>
               <p className={` ${activeSection==="our-work"?"bg-gradient-to-r from-[#1A8CAC] to-[#FFFFFF] text-transparent bg-clip-text hover:from-[#FFFFFF] hover:to-[#1A8CAC] transition-colors duration-300 border-b-1 border-blue-400":"transition-colors duration-300 hover:text-[#8E98A8] cursor-pointer"}  `}>Our Work</p>
             </ScrollLink>
           </button>
