@@ -9,7 +9,7 @@ import { Element } from "react-scroll";
 
 function HomePage(){
   return(
-    <div className="bg-[#29104A] w-full min-h-screen absolute -z-10 overflow-hidden">
+    <div className="bg-[#29104A] w-full min-h-screen absolute -z-[10] ">
       <div className="grid grid-cols-4 gap-[2rem] relative z-[-1] opacity-100 mix-blend-normal " >
         <svg className=" absolute" width="984" height="892" viewBox="0 0 984 892" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_f_24_177)">
@@ -104,7 +104,7 @@ function HomePage(){
       </svg>
 
         {/*---------------------------------------------------*/}
-        <svg className="absolute top-[3210px] opacity-100" width="100%" height="810" viewBox="0 0 100% 810" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="max-h-[100%] absolute top-[3210px] opacity-100" width="100%" height="810" viewBox="0 0 100% 810" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_f_51_96)">
           <circle cx="223" cy="405" r="137" fill="#E7BFE1" fill-opacity="0.7"/>
         </g>
@@ -118,7 +118,7 @@ function HomePage(){
       </svg>
 
 
-        <svg className="absolute top-[2860px] opacity-2000" width="100%" height="1662" viewBox="0 0 100% 1662" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="max-h-[100%] absolute top-[2860px] opacity-2000" width="100%" height="1662" viewBox="0 0 100% 1662" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g filter="url(#filter0_f_51_106)">
               <circle cx="690" cy="831" r="320" fill="#1D86AE" fill-opacity="0.5"/>
             </g>
@@ -131,7 +131,7 @@ function HomePage(){
             </defs>
         </svg> 
 
-        <svg className="absolute top-[3510px] opacity-2000" width="100%" height="810" viewBox="0 0 100% 810" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="max-h-[100%] absolute top-[3510px] opacity-2000" width="100%" height="810" viewBox="0 0 100% 810" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g filter="url(#filter0_f_51_98)">
               <circle cx="1100" cy="405" r="137" fill="#E7BFE1" fill-opacity="0.7"/>
             </g>
