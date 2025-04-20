@@ -7,13 +7,14 @@ import Navbar from '../../components/Navbar.jsx';
 import Footer from '../../components/Footer.jsx';
 import { Element } from "react-scroll";
 import { useEffect } from "react";
+import { setPageTitle } from "../../utils/pageTitle";
 
 function HomePage(){
   useEffect(() => {
-    document.title = "Youvative | Home";
+    setPageTitle('Home');
   }, []);
   return(
-    
+
     <div className="bg-[#29104A] w-full min-h-screen absolute -z-[10] ">
       <div className="grid grid-cols-4 gap-[2rem] relative z-[-1] opacity-100 mix-blend-normal " >
         <svg className=" absolute" width="984" height="892" viewBox="0 0 984 892" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +29,7 @@ function HomePage(){
             </filter>
           </defs>
         </svg>
-        {/*------------------------------------*/}
+
         <svg className="top-[-100px] absolute  opacity-100" width="100%" height="1814" viewBox="0 0 1000 1814" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_f_24_176)">
             <circle cx="1150" cy="907" r="320" fill="#E7BFE1" fillOpacity="0.5"/>
@@ -41,7 +42,7 @@ function HomePage(){
             </filter>
           </defs>
         </svg>
-        {/*------------------------------------------*/}
+
         <svg className="absolute top-[580px] opacity-100" width="895" height="1814" viewBox="0 0 895 1814" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_f_28_204)">
             <circle cx="-12" cy="907" r="320" fill="#E7BFE1" fillOpacity="0.45"/>
@@ -54,7 +55,7 @@ function HomePage(){
             </filter>
           </defs>
         </svg>
-        {/*---------------------------------------------*/}
+
         <svg className="absolute top-[1040px] opacity-100" width="100%" height="1814" viewBox="0 0 895 1814" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_f_28_205)">
             <circle cx="1150" cy="831" r="320" fill="#1D86AE" fillOpacity="0.6"/>
@@ -67,7 +68,7 @@ function HomePage(){
           </filter>
         </defs>
         </svg>
-        {/*--------------------------------------------*/}
+
         <svg className="absolute top-[1950px] opacity-100" width="100%" height="1678" viewBox="0 0 100% 1678" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g filter="url(#filter0_f_44_68)">
             <ellipse cx="1100" cy="839" rx="170" ry="250" fill="#E7BFE1" fill-opacity="0.4"/>
@@ -108,7 +109,7 @@ function HomePage(){
         </defs>
       </svg>
 
-        {/*---------------------------------------------------*/}
+
         <svg className="max-h-[100%] absolute top-[3210px] opacity-100" width="100%" height="810" viewBox="0 0 100% 810" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_f_51_96)">
           <circle cx="223" cy="405" r="137" fill="#E7BFE1" fill-opacity="0.7"/>
@@ -134,7 +135,7 @@ function HomePage(){
                 <feGaussianBlur stdDeviation="150" result="effect1_foregroundBlur_51_106"/>
               </filter>
             </defs>
-        </svg> 
+        </svg>
 
         <svg className="max-h-[100%] absolute top-[3510px] opacity-2000" width="100%" height="810" viewBox="0 0 100% 810" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g filter="url(#filter0_f_51_98)">
@@ -150,7 +151,7 @@ function HomePage(){
         </svg>
 
       </div>
-      
+
       <Navbar/>
       <Element name="home" id="home">
         <HeroSection/>
@@ -158,7 +159,7 @@ function HomePage(){
       <Element name="about" id="about">
         <AboutUs />
       </Element>
-      
+
       <Element name="testimonials" id="testimonials">
         <Testimonials />
       </Element>
@@ -168,7 +169,7 @@ function HomePage(){
       <Element name="our-work" id="our-work">
         <Services/>
       </Element>
-      
+
       <Footer/>
     </div>
   )
