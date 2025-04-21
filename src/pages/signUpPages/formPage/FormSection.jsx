@@ -1,67 +1,98 @@
 import { useState, useEffect } from "react";
+import Select from "react-select";
 import logo from "../../../assets/svg/logoBlack.svg";
-import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaExclamationCircle, FaUser, FaArrowRight} from "react-icons/fa";
-import { MdTaskAlt } from 'react-icons/md';
+import { FaMapMarkerAlt, FaExclamationCircle, FaInstagram, FaArrowRight} from "react-icons/fa";
+import { MdTaskAlt,MdArticle } from 'react-icons/md';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import checkBox from "../../../assets/svg/check-box.svg";
 function FormSection(){
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [email, setEmail] = useState('');
-  const [userName, setUserName]= useState('')
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [errors, setErrors] = useState({ email: '', password: '', userName: '', confirmPassword: '' });
+  const [description, setDescription] = useState('');
+  const [insta, setInsta] = useState('');
+  const [location, setLocation] = useState(null);
+  const [goals, setGoals] = useState(null);
+  const [errors, setErrors] = useState({ location: '', goals: '', insta: '', description: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-
+  const countryOptions = [
+    { label: "Afghanistan", value: "AF" },
+    { label: "Albania", value: "AL" },
+    { label: "Algeria", value: "DZ" },
+    { label: "Andorra", value: "AD" },
+    { label: "Angola", value: "AO" },
+    { label: "Argentina", value: "AR" },
+    { label: "Armenia", value: "AM" },
+    { label: "Australia", value: "AU" },
+    { label: "Austria", value: "AT" },
+    { label: "Azerbaijan", value: "AZ" },
+    { label: "Bahamas", value: "BS" },
+    { label: "Bahrain", value: "BH" },
+    { label: "Bangladesh", value: "BD" },
+    { label: "Barbados", value: "BB" },
+    { label: "Belarus", value: "BY" },
+    { label: "Belgium", value: "BE" },
+    { label: "Belize", value: "BZ" },
+    { label: "Benin", value: "BJ" },
+    { label: "Bhutan", value: "BT" },
+    { label: "Bolivia", value: "BO" },
+    { label: "Brazil", value: "BR" },
+    { label: "Canada", value: "CA" },
+    { label: "China", value: "CN" },
+    { label: "France", value: "FR" },
+    { label: "Germany", value: "DE" },
+    { label: "India", value: "IN" },
+    { label: "Italy", value: "IT" },
+    { label: "Japan", value: "JP" },
+    { label: "Mexico", value: "MX" },
+    { label: "Netherlands", value: "NL" },
+    { label: "Nigeria", value: "NG" },
+    { label: "Pakistan", value: "PK" },
+    { label: "Russia", value: "RU" },
+    { label: "Saudi Arabia", value: "SA" },
+    { label: "South Africa", value: "ZA" },
+    { label: "Spain", value: "ES" },
+    { label: "United Kingdom", value: "GB" },
+    { label: "United States", value: "US" },
+  ];
+  const goalsOptions = [
+    { value: "GF", label: "Grow Followers" },
+    { value: "GB", label: "Grow Business" },
+    { value: "CM", label: "Create More Content" },
+  ];
   useEffect(() => {
-    const savedEmail = localStorage.getItem('userEmail');
-    const savedUserName= localStorage.getItem('userName');
-    if (savedEmail) {
-      setEmail(savedEmail);
+    const savedDescription = localStorage.getItem('userDescription');
+    const savedInsta = localStorage.getItem('userInsta');
+    if (savedDescription) {
+      setDescription(savedDescription);
     }
-    if(savedUserName){
-      setUserName(savedUserName);
+    if(savedInsta){
+      setInsta(savedInsta);
     }
   }, []);
 
   const validateForm = () => {
-    let tempErrors = { email: '', password: '', userName: '', confirmPassword: '' };
+    let tempErrors = { location: '', goals: '', insta: '', description: '' };
     let isValid = true;
 
-
-    if (!userName) {
-      tempErrors.userName = 'Name is required';
+    if (!insta) {
+      tempErrors.insta = 'Instagram Account is required';
       isValid = false;
-    } else if (userName.includes('.') || userName.includes('/') || userName.includes('%')) {
-      tempErrors.userName = `Name cannot contain special characters like "./%, etc."`;
-      isValid = false;
-    }
-
-
-    if (!email) {
-      tempErrors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      tempErrors.email = 'Email is invalid';
+    } else if (!insta.startsWith('@') && insta.length < 3) {
+      tempErrors.insta = 'Please enter a valid Instagram handle';
       isValid = false;
     }
 
-
-    if (!password) {
-      tempErrors.password = 'Password is required';
-      isValid = false;
-    } else if (password.length < 6) {
-      tempErrors.password = 'Password must be at least 6 characters';
+    if (!description) {
+      tempErrors.description = 'Description is required';
       isValid = false;
     }
 
-
-    if (!confirmPassword) {
-      tempErrors.confirmPassword = 'Please confirm your password';
+    if (!goals) {
+      tempErrors.goals = 'Please select a goal';
       isValid = false;
-    } else if (confirmPassword !== password) {
-      tempErrors.confirmPassword = 'Passwords do not match';
+    }
+
+    if (!location) {
+      tempErrors.location = 'Please select your location';
       isValid = false;
     }
 
@@ -74,10 +105,10 @@ function FormSection(){
     setIsSubmitting(true);
 
     if (validateForm()) {
-
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userName', userName);
-
+      localStorage.setItem('userInsta', insta);
+      localStorage.setItem('userDescription', description);
+      localStorage.setItem('userLocation', location?.value || '');
+      localStorage.setItem('userGoals', goals?.value || '');
 
       navigate('/userinterface');
     } else {
@@ -99,110 +130,123 @@ function FormSection(){
             <h1 className="text-[#5E15EB] text-4xl font-extrabold mb-6">Form</h1>
 
             <div className="mt-2 my-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.userName ? 'border border-red-500' : ''}`}>
+              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.insta ? 'border border-red-500' : ''}`}>
                 <span className="self-center">
-                  <FaUser/>
+                  <FaInstagram/>
                 </span>
                 <input
                   className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none"
                   type="text"
-                  name="user-name"
-                  id="user-name"
-                  placeholder="Full Name"
-                  onChange={(e) => setUserName(e.target.value)}
-                  value={userName}
+                  name="insta"
+                  id="insta"
+                  placeholder="Instagram Account"
+                  onChange={(e) => setInsta(e.target.value)}
+                  value={insta}
                 />
               </div>
-              {errors.userName && (
+              {errors.insta && (
                 <div className="text-red-500 text-left text-sm flex items-center">
                   <FaExclamationCircle className="mr-1" />
-                  <span>{errors.userName}</span>
+                  <span>{errors.insta}</span>
                 </div>
               )}
             </div>
 
             <div className=" mb-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md ${errors.email ? 'border border-red-500' : ''}`}>
-                <span className="self-center">
-                  <FaEnvelope/>
+              <div className={`flex pl-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md ${errors.location ? 'border border-red-500' : ''}`}>
+                <span className="self-center mr-3">
+                  <FaMapMarkerAlt/>
                 </span>
-                <input
-                  className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none"
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  autoComplete="email"
+                <Select
+                  options={countryOptions}
+                  placeholder="Select a country"
+                  className="min-w-[90%]  text-start text-white bg-transparent self-center"
+                  value={location}
+                  onChange={setLocation}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      cursor:'pointer',
+                      background: 'transparent',
+                      border: 'none',
+                      boxShadow: 'none',
+                    }),
+                    option: (base) => ({
+                      ...base,
+                      color: 'black',
+                    }),
+                    singleValue: (base) => ({
+                      ...base,
+                      color: 'white',
+                    }),
+                  }}
                 />
               </div>
-              {errors.email && (
+              {errors.location && (
                 <div className="text-red-500 text-left text-sm flex items-center ">
                   <FaExclamationCircle className="mr-1" />
-                  <span>{errors.email}</span>
+                  <span>{errors.location}</span>
                 </div>
               )}
             </div>
 
             <div className="my-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.password ? 'border border-red-500' : ''}`}>
+              <div className={`flex pl-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.goals ? 'border border-red-500' : ''}`}>
                 <span className="self-center">
-                  <FaLock/>
+                  <img src={checkBox} alt="Check Box Icon" className="text-black mr-[0.44rem]"/>
                 </span>
-                <input
-                  className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none"
-                  type={show ? "text" : "password"}
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  autoComplete="current-password"
+                <Select
+                  options={goalsOptions}
+                  placeholder="Select a goal"
+                  className="min-w-[90%]  text-start text-white bg-transparent self-center "
+                  value={goals}
+                  onChange={setGoals}
+                  styles={{
+                    control: (base) => ({
+                      ...base,
+                      cursor: 'pointer',
+                      background: 'transparent',
+                      border: 'none',
+                      boxShadow: 'none',
+                    }),
+                    option: (base) => ({
+                      ...base,
+                      color: 'black',
+                    }),
+                    singleValue: (base) => ({
+                      ...base,
+                      color: 'white',
+                    }),
+                  }}
                 />
-                <button
-                  type="button"
-                  className="self-center"
-                  onClick={() => setShow(!show)}
-                >
-                  {show ? <FaEyeSlash/> : <FaEye/>}
-                </button>
               </div>
-              {errors.password && (
+              {errors.goals && (
                 <div className="text-red-500 text-left text-sm flex items-center ">
                   <FaExclamationCircle className="mr-1" />
-                  <span>{errors.password}</span>
+                  <span>{errors.goals}</span>
                 </div>
               )}
             </div>
 
             <div className="my-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.confirmPassword ? 'border border-red-500' : ''}`}>
+              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.discreption ? 'border border-red-500' : ''}`}>
                 <span className="self-center">
-                  <FaArrowRight/>
+                  <MdArticle />
                 </span>
                 <input
                   className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none"
-                  type={show ? "text" : "password"}
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  placeholder="Confirm Password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  value={confirmPassword}
-                  autoComplete="new-password"
+                  type="text"
+                  name="description"
+                  id="description"
+                  placeholder="What is your content about?"
+                  onChange={(e) => setDescription(e.target.value)}
+                  value={description}
                 />
-                <button
-                  type="button"
-                  className="self-center"
-                  onClick={() => setShow(!show)}
-                >
-                  {show ? <FaEyeSlash/> : <FaEye/>}
-                </button>
               </div>
-              {errors.confirmPassword && (
+              {errors.description && (
                 <div className="text-red-500 text-left text-sm flex items-center ">
                   <FaExclamationCircle className="mr-1" />
-                  <span>{errors.confirmPassword}</span>
+                  <span>{errors.description}</span>
                 </div>
               )}
             </div>
