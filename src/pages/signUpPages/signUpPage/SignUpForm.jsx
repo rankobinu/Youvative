@@ -100,7 +100,7 @@ function SignUpForm(){
 
             <div className="mt-2 my-2">
               <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.userName ? 'border border-red-500' : ''}`}>
-                <span className="self-center">
+                <span className="self-center text-white">
                   <FaUser/>
                 </span>
                 <input
@@ -123,7 +123,7 @@ function SignUpForm(){
 
             <div className=" mb-2">
               <div className={`flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md ${errors.email ? 'border border-red-500' : ''}`}>
-                <span className="self-center">
+                <span className="self-center text-white">
                   <FaEnvelope/>
                 </span>
                 <input
@@ -147,7 +147,7 @@ function SignUpForm(){
 
             <div className="my-2">
               <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.password ? 'border border-red-500' : ''}`}>
-                <span className="self-center">
+                <span className="self-center text-white">
                   <FaLock/>
                 </span>
                 <input
@@ -162,7 +162,7 @@ function SignUpForm(){
                 />
                 <button
                   type="button"
-                  className="self-center"
+                  className="self-center text-white"
                   onClick={() => setShow(!show)}
                 >
                   {show ? <FaEyeSlash/> : <FaEye/>}
@@ -178,7 +178,7 @@ function SignUpForm(){
 
             <div className="my-2">
               <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.confirmPassword ? 'border border-red-500' : ''}`}>
-                <span className="self-center">
+                <span className="self-center text-white">
                   <FaArrowRight/>
                 </span>
                 <input
@@ -193,7 +193,7 @@ function SignUpForm(){
                 />
                 <button
                   type="button"
-                  className="self-center"
+                  className="self-center text-white"
                   onClick={() => setShow(!show)}
                 >
                   {show ? <FaEyeSlash/> : <FaEye/>}
@@ -213,7 +213,7 @@ function SignUpForm(){
 
             <button
               type="submit"
-              className="bg-[#5D17E9] text-2xl text-black rounded-sm py-3 px-20 font-extrabold mt-2 transition-transform hover:scale-105 duration-300 cursor-pointer"
+              className="bg-[#5D17E9] text-white text-xl rounded-lg py-3 px-16 font-bold transition-all duration-300 hover:bg-[#4A12BA] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer mt-6"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Signing Up...' : 'Sign Up'}
