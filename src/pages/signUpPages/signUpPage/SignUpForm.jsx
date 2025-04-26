@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../../../store/slices/userSlice';
 import logo from "../../../assets/svg/logoBlack.svg";
 import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaExclamationCircle, FaUser, FaArrowRight} from "react-icons/fa";
 import { MdTaskAlt } from 'react-icons/md';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 function SignUpForm(){
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
@@ -74,10 +77,15 @@ function SignUpForm(){
     setIsSubmitting(true);
 
     if (validateForm()) {
-
+      // Save to localStorage
       localStorage.setItem('userEmail', email);
       localStorage.setItem('userName', userName);
 
+      // Save to Redux
+      dispatch(setUserData({
+        email: email,
+        userName: userName
+      }));
 
       navigate('/form');
     } else {

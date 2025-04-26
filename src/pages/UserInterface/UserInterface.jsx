@@ -35,19 +35,52 @@ function UserInterface() {
       </div>
 
       <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Welcome, {userData.email}!</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          Welcome  {userData.userName || localStorage.getItem('userName')}. your strategy will be ready within 24 hours.
+        </h2>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="bg-white/5 p-4 rounded">
             <h3 className="text-xl font-semibold mb-2">Profile Information</h3>
-            <p className="mb-2"><span className="font-semibold">Instagram:</span> {userData.instagram}</p>
-            <p className="mb-2"><span className="font-semibold">Location:</span> {userData.location}</p>
-            <p className="mb-2"><span className="font-semibold">Goals:</span> {userData.goals}</p>
-            <p className="mb-2"><span className="font-semibold">Content Description:</span> {userData.description}</p>
+            <p className="mb-2">
+              <span className="font-semibold">Email:</span> {userData.email || localStorage.getItem('userEmail')}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold">Instagram:</span> {userData.instagram || localStorage.getItem('userInsta')}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold">Location:</span> {userData.location || localStorage.getItem('userLocation')}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold">Goals:</span> {userData.goals || localStorage.getItem('userGoals')}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold">Content Description:</span> {userData.description || localStorage.getItem('userDescription')}
+            </p>
           </div>
+          
           <div className="bg-white/5 p-4 rounded">
-            <h3 className="text-xl font-semibold mb-2">Selected Strategy</h3>
-            <p className="mb-2"><span className="font-semibold">Strategy:</span> {userData.strategyTitle}</p>
-            {/* Add more strategy-specific information here */}
+            <h3 className="text-xl font-semibold mb-2">Subscription Details</h3>
+            <div className="space-y-2">
+              <div className="bg-white/5 p-3 rounded">
+                <p className="font-semibold text-[#21BFE4]">Selected Plan</p>
+                <p className="text-lg">{userData.planTitle || localStorage.getItem('userPlanTitle')}</p>
+              </div>
+              <div className="bg-white/5 p-3 rounded">
+                <p className="font-semibold text-[#21BFE4]">Selected Strategy</p>
+                <p className="text-lg">{userData.strategyTitle || localStorage.getItem('userStrategyTitle')}</p>
+              </div>
+              <div className="bg-white/5 p-3 rounded">
+                <p className="font-semibold text-[#21BFE4]">Payment Status</p>
+                <p className="text-lg">
+                  {localStorage.getItem('paymentCompleted') === 'true' ? (
+                    <span className="text-green-400">Active</span>
+                  ) : (
+                    <span className="text-yellow-400">Pending</span>
+                  )}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

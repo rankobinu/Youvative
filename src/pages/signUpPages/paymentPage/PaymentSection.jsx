@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { MdTaskAlt } from 'react-icons/md';
@@ -15,30 +15,107 @@ function PaymentSection() {
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedStrategy, setSelectedStrategy] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState('');
+  const [cardErrors, setCardErrors] = useState({
+    cardNumber: '',
+    expiryDate: '',
+    cvv: ''
+  });
+
+  // Check for saved strategy on component mount
+  useEffect(() => {
+    const savedPlan = localStorage.getItem('userPlan');
+    if (savedPlan) {
+      setSelectedPlan(savedPlan);
+    }
+  }, []);
+
+  const validateCard = () => {
+    const errors = {};
+    let isValid = true;
+
+    // Validate card number (should be 16 digits without spaces)
+    const strippedCardNumber = cardNumber.replace(/\s/g, '');
+    if (!strippedCardNumber) {
+      errors.cardNumber = 'Card number is required';
+      isValid = false;
+    } else if (strippedCardNumber.length !== 16) {
+      errors.cardNumber = 'Card number must be 16 digits';
+      isValid = false;
+    }
+
+    // Validate expiry date (MM/YY format)
+    if (!expiryDate) {
+      errors.expiryDate = 'Expiry date is required';
+      isValid = false;
+    } else {
+      const [month, year] = expiryDate.split('/');
+      const currentYear = new Date().getFullYear() % 100;
+      const currentMonth = new Date().getMonth() + 1;
+
+      if (!month || !year || month > 12 || month < 1) {
+        errors.expiryDate = 'Invalid expiry date';
+        isValid = false;
+      } else if (parseInt(year) < currentYear || 
+                (parseInt(year) === currentYear && parseInt(month) < currentMonth)) {
+        errors.expiryDate = 'Card has expired';
+        isValid = false;
+      }
+    }
+
+    // Validate CVV (3 digits)
+    if (!cvv) {
+      errors.cvv = 'CVV is required';
+      isValid = false;
+    } else if (cvv.length !== 3) {
+      errors.cvv = 'CVV must be 3 digits';
+      isValid = false;
+    }
+
+    setCardErrors(errors);
+    return isValid;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-     if (!selectedStrategy) {
-          setError('Please select a strategy');
-          setIsSubmitting(false);
-          return;
-        }
+
+    if (!selectedPlan) {
+      setError('Please select a plan');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!validateCard()) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Check if user email exists
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) {
+      setError('User information not found. Please sign up first.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const plan = plans.find(s => s.id === selectedPlan);
     
-        const strategy = strategies.find(s => s.id === selectedStrategy);
-        
-        dispatch(setUserData({
-          strategy: selectedStrategy,
-          strategyTitle: strategy.title
-        }));
-    
-        localStorage.setItem('userStrategy', selectedStrategy);
-        localStorage.setItem('userStrategyTitle', strategy.title);
-    
+    dispatch(setUserData({
+      plan: selectedPlan,
+      planTitle: plan.title,
+      // You might want to store a payment confirmation flag
+      paymentCompleted: true
+    }));
+
+    localStorage.setItem('userStrategy', selectedPlan);
+    localStorage.setItem('userStrategyTitle', plan.title);
+    localStorage.setItem('paymentCompleted', 'true');
+
     navigate('/userinterface');
   };
 
-  const strategies = [
+  const plans = [
     {
       id: 'growth',
       title: 'Growth Plan',
@@ -106,7 +183,9 @@ function PaymentSection() {
                 <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
                   <FaCreditCard className="text-white"/>
                   <input
-                    className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder-white/50"
+                    className={`min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder-white/50 ${
+                      cardErrors.cardNumber ? 'border-red-500' : ''
+                    }`}
                     type="text"
                     placeholder="Card Number"
                     value={cardNumber}
@@ -114,13 +193,18 @@ function PaymentSection() {
                     maxLength="19"
                   />
                 </div>
+                {cardErrors.cardNumber && (
+                  <p className="text-red-500 text-sm mt-1">{cardErrors.cardNumber}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
                   <FaCalendar className="text-white"/>
                   <input
-                    className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder-white/50"
+                    className={`min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder-white/50 ${
+                      cardErrors.expiryDate ? 'border-red-500' : ''
+                    }`}
                     type="text"
                     placeholder="MM/YY"
                     value={expiryDate}
@@ -128,11 +212,16 @@ function PaymentSection() {
                     maxLength="5"
                   />
                 </div>
+                {cardErrors.expiryDate && (
+                  <p className="text-red-500 text-sm mt-1">{cardErrors.expiryDate}</p>
+                )}
 
                 <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
                   <FaLock className="text-white"/>
                   <input
-                    className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder-white/50"
+                    className={`min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder-white/50 ${
+                      cardErrors.cvv ? 'border-red-500' : ''
+                    }`}
                     type="password"
                     placeholder="CVV"
                     value={cvv}
@@ -140,23 +229,26 @@ function PaymentSection() {
                     maxLength="3"
                   />
                 </div>
+                {cardErrors.cvv && (
+                  <p className="text-red-500 text-sm mt-1">{cardErrors.cvv}</p>
+                )}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
-                {strategies.map((strategy) => (
+                {plans.map((plan) => (
                   <div 
-                    key={strategy.id}
+                    key={plan.id}
                     className={`rounded-xl cursor-pointer transition-all duration-300 transform hover:scale-105 ${
-                      selectedStrategy === strategy.id 
+                      selectedPlan === plan.id 
                       ? 'bg-[#5E15EB] text-white ring-4 ring-purple-400' 
                       : 'bg-[#B28FFA4F] text-white hover:bg-[#5E15EB]/50'
                     }`}
                     onClick={() => {
-                      setSelectedStrategy(strategy.id);
+                      setSelectedPlan(plan.id);
                       setError('');
                     }}
                   >
                     <div className="p-4 h-full flex flex-col text-center">
-                      <h2 className="text-xl font-bold  m-auto">{strategy.title}</h2>
+                      <h2 className="text-xl font-bold  m-auto">{plan.title}</h2>
                     </div>
                   </div>
                 ))}

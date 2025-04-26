@@ -2,10 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   email: '',
+  userName: '',
   instagram: '',
   location: '',
   goals: '',
-  description: ''
+  description: '',
+  strategy: '',
+  strategyTitle: '',
+  plan: '',
+  planTitle: '',
+  paymentCompleted: false
 };
 
 const userSlice = createSlice({
@@ -15,7 +21,7 @@ const userSlice = createSlice({
     setUserData: (state, action) => {
       return { ...state, ...action.payload };
     },
-    clearUserData: (state) => {
+    clearUserData: () => {
       return initialState;
     }
   }
