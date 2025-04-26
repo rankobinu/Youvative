@@ -138,7 +138,7 @@ function FormSection() {
           <img src={logo} alt="Youvative Logo" className="-mt-7 -ml-10"/>
         </RouterLink>
       </div>
-      <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col -mt-25">
+      <div className="max-w-6xl mx-auto w-[40%] flex-1 flex flex-col -mt-25">
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
           <div className="text-center mb-6">
             <div className="flex justify-center items-center gap-6">
@@ -234,7 +234,7 @@ function FormSection() {
           <div className="flex flex-col items-center mt-4 pb-20">
             <button
               type="submit"
-              className="bg-[#5D17E9] text-white text-xl rounded-lg py-3 px-16 font-bold transition-all duration-300 hover:bg-[#4A12BA] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="bg-[#5D17E9] text-white text-xl rounded-lg py-3 px-12 font-bold transition-all duration-300 hover:bg-[#4A12BA] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Processing...' : 'Continue to Strategy'}

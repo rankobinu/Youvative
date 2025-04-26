@@ -2,22 +2,57 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { MdTaskAlt } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../../../store/slices/userSlice';
 import { FaCreditCard, FaCalendar, FaLock } from 'react-icons/fa';
 import logo from "../../../assets/svg/logoBlack.svg";
 
 function PaymentSection() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [error, setError] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [selectedStrategy, setSelectedStrategy] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Add payment processing logic here
+     if (!selectedStrategy) {
+          setError('Please select a strategy');
+          setIsSubmitting(false);
+          return;
+        }
+    
+        const strategy = strategies.find(s => s.id === selectedStrategy);
+        
+        dispatch(setUserData({
+          strategy: selectedStrategy,
+          strategyTitle: strategy.title
+        }));
+    
+        localStorage.setItem('userStrategy', selectedStrategy);
+        localStorage.setItem('userStrategyTitle', strategy.title);
+    
     navigate('/userinterface');
   };
+
+  const strategies = [
+    {
+      id: 'growth',
+      title: 'Growth Plan',
+      
+    },
+    {
+      id: 'professional',
+      title: 'Professional Plan',
+    },
+    {
+      id: 'starter',
+      title: 'Starter Plan',
+    }
+  ];
 
   const formatCardNumber = (value) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
@@ -65,7 +100,7 @@ function PaymentSection() {
             <p className="text-white/80 mt-2 text-lg">Enter your payment information to complete your subscription</p>
           </div>
 
-          <div className="mt-auto bg-[#B28FFA4F] rounded-lg p-6 max-w-xl mx-auto w-full">
+          <div className="mb-4 -mt-2 bg-[#B28FFA4F] rounded-lg p-6 max-w-xl mx-auto w-full">
             <div className="space-y-4">
               <div>
                 <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
@@ -106,6 +141,29 @@ function PaymentSection() {
                   />
                 </div>
               </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
+                {strategies.map((strategy) => (
+                  <div 
+                    key={strategy.id}
+                    className={`rounded-xl cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                      selectedStrategy === strategy.id 
+                      ? 'bg-[#5E15EB] text-white ring-4 ring-purple-400' 
+                      : 'bg-[#B28FFA4F] text-white hover:bg-[#5E15EB]/50'
+                    }`}
+                    onClick={() => {
+                      setSelectedStrategy(strategy.id);
+                      setError('');
+                    }}
+                  >
+                    <div className="p-4 h-full flex flex-col text-center">
+                      <h2 className="text-xl font-bold  m-auto">{strategy.title}</h2>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {error && (
+                <p className="text-red-500 text-center mb-4">{error}</p>
+              )}
             </div>
           </div>
 
@@ -115,7 +173,7 @@ function PaymentSection() {
               className="bg-[#5D17E9] text-white text-xl rounded-lg py-3 px-16 font-bold transition-all duration-300 hover:bg-[#4A12BA] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Processing...' : 'Continue to Payment'}
+              {isSubmitting ? 'Submitting...' : 'Submit'}
             </button>
 
             <RouterLink 
