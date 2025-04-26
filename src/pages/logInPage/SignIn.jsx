@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import logo from "../../assets/svg/logoBlack.svg";
 import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaExclamationCircle } from "react-icons/fa";
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
+const ADMIN_CREDENTIALS = {
+  email: "m_beyahmedkhernache@estin.dz",
+  password: "123456789"
+};
+
 function SignIn(){
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -49,12 +55,18 @@ function SignIn(){
     setIsSubmitting(true);
 
     if (validateForm()) {
-      localStorage.setItem('userEmail', email);
-
-      navigate('/userinterface');
-    } else {
-      setIsSubmitting(false);
+      // Check if credentials match admin credentials
+      if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+        localStorage.setItem('adminEmail', email);
+        localStorage.setItem('adminPassword', password);
+        navigate('/admin');
+      } else {
+        // Regular user login
+        localStorage.setItem('userEmail', email);
+        navigate('/userinterface');
+      }
     }
+    setIsSubmitting(false);
   };
   return(
     <div className="h-full overflow-y-auto px-4">
@@ -64,8 +76,8 @@ function SignIn(){
           <div className="text-center">
             <h1 className="text-[#5E15EB] text-5xl font-extrabold">Sign in to Start</h1>
 
-            <div className="mt-10 mb-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-15 rounded-md ${errors.email ? 'border border-red-500' : ''}`}>
+            <div className="my-2">
+              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-15 text-lg rounded-md ${errors.email ? 'border border-red-500' : ''}`}>
                 <span className="self-center">
                   <FaEnvelope/>
                 </span>
@@ -73,11 +85,9 @@ function SignIn(){
                   className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none"
                   type="email"
                   name="email"
-                  id="email"
                   placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               {errors.email && (
@@ -97,11 +107,9 @@ function SignIn(){
                   className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none"
                   type={show ? "text" : "password"}
                   name="password"
-                  id="password"
                   placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
                   value={password}
-                  autoComplete="current-password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="button"
@@ -134,6 +142,6 @@ function SignIn(){
         </div>
       </form>
     </div>
-  )
+  );
 }
 export default SignIn;

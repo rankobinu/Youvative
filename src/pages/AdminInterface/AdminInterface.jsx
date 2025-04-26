@@ -13,6 +13,11 @@ import ActiveUsers from './components/ActiveUsers';
 import UnactiveUsers from './components/UnactiveUsers';
 import ResubscribedUsers from './components/ResubscribedUsers';
 
+const ADMIN_CREDENTIALS = {
+  email: "m_beyahmedkhernache@estin.dz",
+  password: "123456789"
+};
+
 function AdminInterface() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,13 +28,17 @@ function AdminInterface() {
 
   useEffect(() => {
     setPageTitle('Admin Dashboard');
-    if (!localStorage.getItem('adminEmail')) {
-      navigate('/admin');
+    const adminEmail = localStorage.getItem('adminEmail');
+    const adminPassword = localStorage.getItem('adminPassword');
+    
+    if (adminEmail !== ADMIN_CREDENTIALS.email || adminPassword !== ADMIN_CREDENTIALS.password) {
+      navigate('/login');
     }
   }, [navigate]);
 
   const handleSignOut = () => {
-    localStorage.clear();
+    localStorage.removeItem('adminEmail');
+    localStorage.removeItem('adminPassword');
     dispatch(clearUserData());
     navigate('/login');
   };
