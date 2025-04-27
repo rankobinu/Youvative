@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../../../store/slices/userSlice';
 import { MdTaskAlt } from 'react-icons/md';
-import { FaExclamationCircle } from 'react-icons/fa';
+import { FaTiktok, FaYoutube, FaInstagram } from "react-icons/fa";
 import logo from "../../../assets/svg/logoBlack.svg";
 
 
@@ -44,61 +44,61 @@ function StrategySection() {
 
   const strategies = [
     {
-      id: 'viral-growth',
-      title: 'Viral Growth Strategy',
-      description: 'Focus on creating highly shareable, trending content to maximize reach',
-      platform: 'TikTok',
-      goalExample: 'Achieve 100K followers in 3 months through viral challenges',
+      id: 'branding-strategy',
+      title: 'Branding Strategy',
+      description: 'Build a consistent and professional personal brand',
+      platform: <FaTiktok/>,
+      goalExample: '3 reels/week + Q&A scheme guide',
+    },    
+    {
+      id: 'engagement-booster',
+      title: 'Engagement Booster',
+      description: 'Improve interaction and comments on posts',
+      platform: <FaInstagram/>,
+      goalExample: '+20% engagement rate',
     },
     {
-      id: 'educational-content',
-      title: 'Educational Content Strategy',
-      description: 'Build authority through informative and educational content',
-      platform: 'YouTube',
-      goalExample: 'Create a learning series with 50K subscribers',
+      id: 'youTube-starter-kit',
+      title: 'YouTube Starter Kit',
+      description: 'Align content between platforms for wider reach',
+      platform: <FaYoutube/>,
+      goalExample: '2 videos/week + Q&A post',
     },
     {
-      id: 'lifestyle-influence',
-      title: 'Lifestyle Influencer Strategy',
-      description: 'Share authentic lifestyle content to build a loyal following',
-      platform: 'Instagram',
-      goalExample: 'Build an engaged community of 50K followers',
+      id: 'growth-boost',
+      title: 'Growth Boost',
+      description: 'Increase reach and attract new followers',
+      platform: <FaInstagram/>,
+      goalExample: '+500 followers in 1 month',
+    },    
+    {
+      id: 'product-promotion',
+      title: 'Product Promotion',
+      description: 'Promote a specific product or service effectively',
+      platform: <FaInstagram/>,
+      goalExample: '5 story promos/week',
     },
     {
-      id: 'entertainment',
-      title: 'Entertainment Strategy',
-      description: 'Create engaging entertainment content for maximum audience retention',
-      platform: 'TikTok',
-      goalExample: 'Reach 1M total likes across content',
+      id: 'tikok-viral Push',
+      title: 'TikTok Viral Push',
+      description: 'Boost inactive creators aiming to return',
+      platform: <FaTiktok/>,
+      goalExample: '1 trending challenge/week',
     },
     {
-      id: 'business-growth',
-      title: 'Business Growth Strategy',
-      description: 'Convert social media presence into business opportunities',
-      platform: 'Instagram',
-      goalExample: 'Generate 100 qualified leads per month',
+      id: 'community-builder',
+      title: 'Community Builder',
+      description: 'For inactive creators aiming to return with a bang',
+      platform: <FaInstagram/>,
+      goalExample: '1 live/week + 2 reels/week',
     },
     {
-      id: 'tech-review',
-      title: 'Tech Review Strategy',
-      description: 'Build authority in tech reviews and comparisons',
-      platform: 'YouTube',
-      goalExample: 'Achieve 10K watch hours in tech reviews',
-    },
-    {
-      id: 'creative-arts',
-      title: 'Creative Arts Strategy',
-      description: 'Showcase artistic talent and creative process',
-      platform: 'Instagram',
-      goalExample: 'Build a portfolio with 30K followers',
-    },
-    {
-      id: 'short-form',
-      title: 'Short-Form Content Strategy',
-      description: 'Master the art of impactful short-form video content',
-      platform: 'TikTok',
-      goalExample: 'Achieve 500K views per video average',
-    }
+      id: 'niche-domination',
+      title: 'Niche Domination',
+      description: 'Focus on dominating a specific niche (e.g., fitness, tech, etc.)',
+      platform: [<FaTiktok/>,<FaYoutube/>,<FaInstagram/>],
+      goalExample: 'Weekly expert content',
+    }  
   ];
 
   const handleSubmit = (e) => {
@@ -145,7 +145,7 @@ function StrategySection() {
   return (
     <div className="flex flex-col  bg-gradient-to-t from-[#5E4683] to-[#150F1D]">
       {/* Fixed Header */}
-      <div className={`sticky flex top-0 right-0 left-0 -px-8 ${showTransition? "transition-color duration-200":"" }  ${scrolled? "backdrop-blur-lg bg-[#150F1D]/50": ""} my-5 py-3 z-10`}>
+      <div className={`sticky flex top-0 right-0 left-0 -px-8 ${showTransition? "transition-color":"" }  ${scrolled? "bg-[#150F1D]": ""} my-5 py-3 z-10`}>
         <div>
           <RouterLink to="/homepage">
             <img src={logo} alt="Youvative Logo" className="absolute -my-10 -ml-10 "/>
@@ -187,9 +187,9 @@ function StrategySection() {
                       }`}
                       onClick={() => handleStrategyClick(strategy.id)}
                     >
-                      <div className="p-5 h-full flex flex-col">
-                        <div className="mb-4">
-                          <span className="bg-white/20 text-white px-2 py-1 rounded-full text-sm">
+                      <div className="px-5 py-2 h-full flex flex-col">
+                        <div className="my-3">
+                          <span className="text-white px-2 rounded-full text-xl flex gap-3">
                             {strategy.platform}
                           </span>
                         </div>
