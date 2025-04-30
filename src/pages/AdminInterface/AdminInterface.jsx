@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPageTitle } from "../../utils/pageTitle";
+import { setPageTitle } from "../../utils/pageTitle.js";
 import { useNavigate } from 'react-router-dom';
-import { clearUserData } from '../../store/slices/userSlice';
+import { clearUserData } from '../../store/slices/userSlice.js';
 
 // Import components
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import Dashboard from './components/Dashboard';
-import NewUsers from './components/NewUsers';
-import ActiveUsers from './components/ActiveUsers';
-import UnactiveUsers from './components/UnactiveUsers';
-import ResubscribedUsers from './components/ResubscribedUsers';
+import Navbar from './components/Navbar.jsx';
+import Sidebar from './components/Sidebar.jsx';
+import Dashboard from './sections/Dashboard/Dashboard.jsx';
+import NewUsers from './sections/NewUsers/NewUsers.jsx';
+import ActiveUsers from './sections/ActiveUsers/ActiveUsers.jsx';
+import UnactiveUsers from './sections/UnactiveUsers/UnactiveUsers.jsx';
+import ResubscribedUsers from './sections/ResubscribedUsers/ResubscribedUsers.jsx';
 
 const ADMIN_CREDENTIALS = {
   email: "m_beyahmedkhernache@estin.dz",
