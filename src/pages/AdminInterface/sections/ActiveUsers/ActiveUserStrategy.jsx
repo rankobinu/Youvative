@@ -14,12 +14,12 @@ function UserStrategy() {
   const activeTab='active-users';
   
   // Strategy data states
-  const generalStrategy={
+  const [generalStrategy, ] = useState({
     headline: 'Build a Consistent TikTok Presence',
     description: 'Focus on creating a recognizable personal brand through consistent posting schedule and visual identity. Leverage trending sounds and hashtags while maintaining your unique style to stand out in the algorithm.'
-  };
+  });
   
-  const monthlyStrategy={
+  const [monthlyStrategy, ] = useState({
     goal: 'Increase engagement rate by 15% and gain 500 new followers by creating consistent, high-quality content that resonates with the target audience.',
     tasks: [
       {
@@ -68,7 +68,7 @@ function UserStrategy() {
         status: 'done'
       }
     ]
-  };
+  });
   
   // Task counts
   const [taskCounts, setTaskCounts] = useState({
@@ -79,7 +79,7 @@ function UserStrategy() {
 
   // Custom setActiveTab function to handle navigation
   const handleTabChange = (tabId) => {
-    // Navigate to the admin interface with the selected tab as a URL parameter
+    // Navigate directly to the admin interface with the selected tab
     navigate(`/admin?tab=${tabId}`);
   };
 
@@ -306,7 +306,7 @@ function UserStrategy() {
           {/* Monthly Strategy Section */}
           <div className="mt-8">
             <h2 className="text-2xl font-semibold text-white mb-4">
-              Current Month Strategy
+              Current Month Achievement
             </h2>
             
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg">
@@ -446,11 +446,10 @@ function UserStrategy() {
           <div className="flex justify-end gap-4 mt-8">
             <button
               onClick={() => navigate('/admin?tab=dashboard')}
-              className="px-6 py-3 rounded-lg font-semibold bg-gray-600 text-white hover:bg-gray-700 transition-colors"
+              className="px-6 py-3 rounded-lg font-semibold bg-gray-600 text-white hover:bg-gray-700 transition-colors cursor-pointer"
             >
               Back to Dashboard
             </button>
-          
           </div>
         </div>
       </div>
