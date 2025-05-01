@@ -1,12 +1,11 @@
 // Move your existing NewUsers.jsx code here
 // ... existing NewUsers component code ...
-import { useState } from 'react';
 import { FiCheck, FiX, FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 function NewUsers() {
   const navigate = useNavigate();
-  const [newUsers, setNewUsers] = useState([
+  const newUsers =[
     {
       id: 1,
       username: 'John Doe',
@@ -28,17 +27,17 @@ function NewUsers() {
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'
     },
     // Add more mock data as needed
-  ]);
+  ];
  
 
   const handleSetStrategy = (userId) => {
     // Navigate to user info page with the user ID
-    navigate(`/admin/user/${userId}/strategy`);
+    navigate(`/admin/user/${userId}/resubscribeduserstrategy`);
   };
 
   return (
     <div className="space-y-6 p-4">
-      <h1 className="text-3xl font-bold text-white mb-8">New User Requests</h1>
+      <h1 className="text-3xl font-bold text-white mb-8">Resubscribed Users</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {newUsers.map((user) => (

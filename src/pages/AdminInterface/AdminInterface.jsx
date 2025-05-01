@@ -12,7 +12,10 @@ import NewUsers from './sections/NewUsers/NewUsers.jsx';
 import ActiveUsers from './sections/ActiveUsers/ActiveUsers.jsx';
 import UnactiveUsers from './sections/UnactiveUsers/UnactiveUsers.jsx';
 import ResubscribedUsers from './sections/ResubscribedUsers/ResubscribedUsers.jsx';
-import UserStrategy from './sections/NewUsers/UserStrategy.jsx';
+import NewUserStrategy from './sections/NewUsers/NewUserStrategy.jsx';
+import ActiveUserStrategy from './sections/ActiveUsers/ActiveUserStrategy.jsx';
+import UnactiveUserStrategy from './sections/UnactiveUsers/UnactiveUserStrategy.jsx';
+import ResubscribedUserStrategy from './sections/ResubscribedUsers/ResubscribedUserStrategy.jsx';
 
 const ADMIN_CREDENTIALS = {
   email: "m_beyahmedkhernache@estin.dz",
@@ -70,8 +73,14 @@ function AdminInterface() {
         return <UnactiveUsers />;
       case 'resubscribed-users':
         return <ResubscribedUsers />;
-      case 'user-strategy':
-        return <UserStrategy />;
+      case 'new-user-strategy':
+        return < NewUserStrategy />;
+        case 'active-user-strategy':
+        return < ActiveUserStrategy />;
+        case 'unactive-user-strategy':
+        return < UnactiveUserStrategy />;
+        case 'resubscribed-user-strategy':
+        return < ResubscribedUserStrategy />;
       default:
         return <Dashboard />;
     }

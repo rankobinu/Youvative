@@ -13,7 +13,10 @@ import PaymentPage from './pages/signUpPages/paymentPage/PaymentPage.jsx';
 import UserInterface from './pages/UserInterface/UserInterface.jsx';
 import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 import AdminInterface from './pages/AdminInterface/AdminInterface.jsx';
-import UserStrategy from './pages/AdminInterface/sections/NewUsers/UserStrategy.jsx';
+import NewUserStrategy from './pages/AdminInterface/sections/NewUsers/NewUserStrategy.jsx';
+import ActiveUserStrategy from './pages/AdminInterface/sections/ActiveUsers/ActiveUserStrategy.jsx';
+import UnactiveUserStrategy from './pages/AdminInterface/sections/UnactiveUsers/UnactiveUserStrategy.jsx';
+import ResubscribedUserStrategy from './pages/AdminInterface/sections/ResubscribedUsers/ResubscribedUserStrategy.jsx';
 import NewUsers from './pages/AdminInterface/sections/NewUsers/NewUsers.jsx';
 import ActiveUsers from './pages/AdminInterface/sections/ActiveUsers/ActiveUsers.jsx';
 import UnactiveUsers from './pages/AdminInterface/sections/UnactiveUsers/UnactiveUsers.jsx';
@@ -34,7 +37,10 @@ createRoot(document.getElementById("root")).render(
           <Route path='/userinterface' element={<UserInterface/>} />
           <Route path='/resetpassword' element={<ResetPassword/>} />
           <Route path='/admin' element={<AdminInterface />} />
-          <Route path='/admin/user/:userId/strategy' element={<UserStrategy />} />
+          <Route path='/admin/user/:userId/newuserstrategy' element={<NewUserStrategy />} />
+          <Route path='/admin/user/:userId/activeuserstrategy' element={<ActiveUserStrategy />} />
+          <Route path='/admin/user/:userId/unactiveuserstrategy' element={<UnactiveUserStrategy />} />
+          <Route path='/admin/user/:userId/resubscribeduserstrategy' element={<ResubscribedUserStrategy />} />
           <Route path='/admin/user/activeusers' element={<ActiveUsers />} />
           <Route path='/admin/user/resubscribedusers' element={<ResubscribedUsers />} />
           <Route path='/admin/user/unactiveusers' element={<UnactiveUsers />} />

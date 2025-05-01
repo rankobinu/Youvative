@@ -32,12 +32,12 @@ function NewUsers() {
 
   const handleSetStrategy = (userId) => {
     // Navigate to user info page with the user ID
-    navigate(`/admin/user/${userId}/strategy`);
+    navigate(`/admin/user/${userId}/activeuserstrategy`);
   };
 
   return (
     <div className="space-y-6 p-4">
-      <h1 className="text-3xl font-bold text-white mb-8">New User Requests</h1>
+      <h1 className="text-3xl font-bold text-white mb-8">Active Users</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {newUsers.map((user) => (

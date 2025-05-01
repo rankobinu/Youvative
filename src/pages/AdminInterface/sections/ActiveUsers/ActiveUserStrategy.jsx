@@ -11,7 +11,7 @@ function UserStrategy() {
   const [userInfo, setUserInfo] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const activeTab='new-users';
+  const activeTab='active-users';
   
   // Strategy setting states
   const [showStrategyForms, setShowStrategyForms] = useState(false);
@@ -182,10 +182,10 @@ function UserStrategy() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => navigate('/admin?tab=new-users')}
+              onClick={() => navigate('/admin?tab=active-users')}
               className="flex items-center text-gray-400 hover:text-white transition-colors"
             >
-              <FiArrowLeft className="mr-2" /> Back to New Users
+              <FiArrowLeft className="mr-2" /> Back to Active Users
             </button>
           </div>
 

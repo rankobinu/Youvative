@@ -32,7 +32,7 @@ function NewUsers() {
 
   const handleSetStrategy = (userId) => {
     // Navigate to user info page with the user ID
-    navigate(`/admin/user/${userId}/strategy`);
+    navigate(`/admin/user/${userId}/newuserstrategy`);
   };
 
   return (

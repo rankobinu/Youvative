@@ -32,12 +32,12 @@ function NewUsers() {
 
   const handleSetStrategy = (userId) => {
     // Navigate to user info page with the user ID
-    navigate(`/admin/user/${userId}/strategy`);
+    navigate(`/admin/user/${userId}/unactiveuserstrategy`);
   };
 
   return (
     <div className="space-y-6 p-4">
-      <h1 className="text-3xl font-bold text-white mb-8">New User Requests</h1>
+      <h1 className="text-3xl font-bold text-white mb-8">Unactive Users</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {newUsers.map((user) => (
@@ -64,13 +64,13 @@ function NewUsers() {
               {/* Action Buttons */}
               <div className="flex justify-between items-center">
                 
-                <span className='px-3 py-[0.25em] text-sm font-semibold rounded-full bg-white text-red-500'>
+                <span className='px-2 py-[0.25em] text-sm font-semibold rounded-full bg-white text-red-500'>
                   unactive
                 </span>
 
                 <button
                   onClick={() => handleSetStrategy(user.id)}
-                  className="flex items-center gap-2 px-3 py-2 backdrop-blur-md bg-white/20 text-white rounded-lg hover:bg-[#1f0e42] transition-colors cursor-pointer"
+                  className="flex items-center gap-1 px-3 py-2 backdrop-blur-md bg-white/20 text-white rounded-lg hover:bg-[#1f0e42] transition-colors cursor-pointer"
                 >
                   View More
                   <FiArrowRight size={16} />
