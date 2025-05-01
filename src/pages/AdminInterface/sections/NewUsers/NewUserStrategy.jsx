@@ -65,7 +65,7 @@ function UserStrategy() {
   // New task form states
   const [showTaskForm, setShowTaskForm] = useState(false);
   const [taskDate, setTaskDate] = useState('');
-  const [taskType, setTaskType] = useState('');
+  const [taskType, setTaskType] = useState(null); // Changed from '' to null for react-select
   const [taskTitle, setTaskTitle] = useState('');
   const [taskPurpose, setTaskPurpose] = useState('');
   
@@ -123,7 +123,7 @@ function UserStrategy() {
   
   // Handle adding a new task
   const handleAddTask = () => {
-    if (!taskDate || !taskTypes || !taskTitle || !taskPurpose) {
+    if (!taskDate || !taskType || !taskTitle || !taskPurpose) {
       alert('Please fill in all task fields');
       return;
     }
@@ -131,17 +131,18 @@ function UserStrategy() {
     const newTask = {
       id: Date.now(),
       date: taskDate,
-      type: taskType,
+      type: taskType.value, // Extract value from the Select component option
       title: taskTitle,
       purpose: taskPurpose,
-      completed: false
+      completed: false,
+      status: 'upcoming'
     };
     
     setTasks([...tasks, newTask]);
     
     // Reset form fields
     setTaskDate('');
-    setTaskType('');
+    setTaskType(null); // Reset to null for react-select
     setTaskTitle('');
     setTaskPurpose('');
     setShowTaskForm(false);
@@ -430,10 +431,10 @@ function UserStrategy() {
                               styles={customSelectStyles}
                               options={taskTypes}
                               value={taskType}
-                              onChange={setTaskType}
-                              className="w-full  bg-white/5 border border-white/20 rounded-lg text-white"
-                            >                             
-                            </Select>
+                              onChange={(selectedOption) => setTaskType(selectedOption)}
+                              placeholder="Select task type"
+                              className="w-full bg-white/5 border border-white/20 rounded-lg text-white"
+                            />
                           </div>
                           <div>
                             <label className="block text-white mb-1">Title</label>
