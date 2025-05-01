@@ -179,7 +179,7 @@ function UserStrategy() {
           <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => navigate('/admin?tab=active-users')}
-              className="flex items-center text-gray-400 hover:text-white transition-colors"
+              className="flex items-center text-gray-400 hover:text-white transition-colors cursor-pointer"
             >
               <FiArrowLeft className="mr-2" /> Back to Active Users
             </button>

@@ -51,7 +51,7 @@ function UserStrategy() {
   const taskTypes=[
     { value: "video", label: "Video" },
     { value: "story", label: "Story" },
-    { value: "reel", label: "Real" },
+    { value: "reel", label: "Reel" },
     { value: "post", label: "Post" }   
   ]
   

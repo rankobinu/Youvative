@@ -51,7 +51,7 @@ function UserStrategy() {
   const taskTypes=[
     { value: "video", label: "Video" },
     { value: "story", label: "Story" },
-    { value: "reel", label: "Real" },
+    { value: "reel", label: "Reel" },
     { value: "post", label: "Post" }   
   ]
 
@@ -283,7 +283,7 @@ function UserStrategy() {
           <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => navigate('/admin?tab=resubscribed-users')}
-              className="flex items-center text-gray-400 hover:text-white transition-colors"
+              className="flex items-center text-gray-400 hover:text-white transition-colors cursor-pointer"
             >
               <FiArrowLeft className="mr-2" /> Back to Resubscribed Users
             </button>
@@ -546,7 +546,7 @@ function UserStrategy() {
                       <h3 className="text-xl font-semibold text-white">Tasks</h3>
                       <button
                         onClick={() => setShowTaskForm(true)}
-                        className="flex items-center px-4 py-2 bg-[#5D17E9]/70 hover:bg-[#5D17E9] text-white rounded-lg transition-colors"
+                        className="flex items-center px-4 py-2 bg-[#5D17E9]/70 hover:bg-[#5D17E9] text-white rounded-lg transition-colors cursor-pointer"
                       >
                         <FiPlus className="mr-2" /> Add Task
                       </button>
@@ -601,13 +601,13 @@ function UserStrategy() {
                         <div className="flex justify-end gap-2">
                           <button
                             onClick={() => setShowTaskForm(false)}
-                            className="px-4 py-2 rounded-lg font-semibold bg-gray-600 text-white hover:bg-gray-700 transition-colors"
+                            className="px-4 py-2 rounded-lg font-semibold bg-gray-600 text-white hover:bg-gray-700 transition-colors cursor-pointer"
                           >
                             Cancel
                           </button>
                           <button
                             onClick={handleAddTask}
-                            className="px-4 py-2 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors"
+                            className="px-4 py-2 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors cursor-pointer"
                           >
                             Add Task
                           </button>
@@ -644,7 +644,7 @@ function UserStrategy() {
                   <div className="flex justify-end">
                     <button
                       onClick={handleSetMonthlyStrategy}
-                      className="px-6 py-3 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors"
+                      className="px-6 py-3 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors cursor-pointer"
                     >
                       Set Monthly Strategy
                     </button>
@@ -664,7 +664,7 @@ function UserStrategy() {
           <div className="flex justify-end gap-4 mt-8">
             <button
               onClick={() => navigate('/admin')}
-              className="px-6 py-3 rounded-lg font-semibold bg-gray-600 text-white hover:bg-gray-700 transition-colors"
+              className="px-6 py-3 rounded-lg font-semibold bg-gray-600 text-white hover:bg-gray-700 transition-colors cursor-pointer"
             >
               Back to Dashboard
             </button>
@@ -674,7 +674,7 @@ function UserStrategy() {
                 // Here you would implement the logic to approve the user
                 setShowStrategyForms(true)               
               }}
-              className="px-6 py-3 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors"
+              className="px-6 py-3 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors cursor-pointer"
             >
               Set Strategy
             </button>
