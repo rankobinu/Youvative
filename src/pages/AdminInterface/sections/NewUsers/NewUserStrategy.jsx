@@ -84,10 +84,10 @@ function UserStrategy() {
     // This should be replaced with an API call that fetches user data by userId
     setUserInfo({
       id: userId,
-      userName: 'John Doe',
+      userName: 'John Doe', 
       email: 'john@example.com',
       instagram: '@johndoe',
-      location: 'New York, USA',
+      location: 'Algeria,DZ',
       goals: 'Grow audience and increase engagement',
       description: 'Content creator focused on lifestyle and tech reviews',
       registrationDate: '2024-02-20',
@@ -324,7 +324,7 @@ function UserStrategy() {
                 <div className="bg-white/5 p-4 rounded">
                   <p className="text-[#21BFE4] font-semibold">Status</p>
                   <div className="flex items-center mt-2">
-                  <span className='px-2 py-[0.25em] text-sm font-semibold rounded-full bg-white text-yellow-800'>
+                  <span className='px-2 text-md font-semibold rounded-full bg-white text-yellow-800'>
                     pending
                   </span>
                   </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setPageTitle } from "../../utils/pageTitle";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { clearUserData } from '../../store/slices/userSlice';
@@ -12,10 +12,6 @@ import NewUsers from './sections/NewUsers/NewUsers.jsx';
 import ActiveUsers from './sections/ActiveUsers/ActiveUsers.jsx';
 import UnactiveUsers from './sections/UnactiveUsers/UnactiveUsers.jsx';
 import ResubscribedUsers from './sections/ResubscribedUsers/ResubscribedUsers.jsx';
-import NewUserStrategy from './sections/NewUsers/NewUserStrategy.jsx';
-import ActiveUserStrategy from './sections/ActiveUsers/ActiveUserStrategy.jsx';
-import UnactiveUserStrategy from './sections/UnactiveUsers/UnactiveUserStrategy.jsx';
-import ResubscribedUserStrategy from './sections/ResubscribedUsers/ResubscribedUserStrategy.jsx';
 
 const ADMIN_CREDENTIALS = {
   email: "m_beyahmedkhernache@estin.dz",
@@ -26,7 +22,7 @@ function AdminInterface() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  //const userData = useSelector((state) => state.user);
+  const userData = useSelector((state) => state.user);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isExpanded, setIsExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -39,17 +35,14 @@ function AdminInterface() {
     if (adminEmail !== ADMIN_CREDENTIALS.email || adminPassword !== ADMIN_CREDENTIALS.password) {
       navigate('/login');
     }
-  }, [navigate]);
-
-  // Check for tab parameter in URL whenever location changes
-  useEffect(() => {
-    // Get tab from URL query parameters
+    
+    // Check for tab parameter in URL whenever location changes
     const queryParams = new URLSearchParams(location.search);
     const tabParam = queryParams.get('tab');
     
     if (tabParam) {
       setActiveTab(tabParam);
-      // Clean up the URL after reading the parameter
+      // Clean up the URL after reading the parameter (optional)
       navigate('/admin', { replace: true });
     }
   }, [location, navigate]);
@@ -73,14 +66,6 @@ function AdminInterface() {
         return <UnactiveUsers />;
       case 'resubscribed-users':
         return <ResubscribedUsers />;
-      case 'new-user-strategy':
-        return < NewUserStrategy />;
-        case 'active-user-strategy':
-        return < ActiveUserStrategy />;
-        case 'unactive-user-strategy':
-        return < UnactiveUserStrategy />;
-        case 'resubscribed-user-strategy':
-        return < ResubscribedUserStrategy />;
       default:
         return <Dashboard />;
     }
