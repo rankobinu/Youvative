@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setPageTitle } from "../../utils/pageTitle.js";
-import { useNavigate } from 'react-router-dom';
-import { clearUserData } from '../../store/slices/userSlice.js';
+import { useDispatch } from 'react-redux';
+import { setPageTitle } from "../../utils/pageTitle";
+import { useNavigate, useLocation } from 'react-router-dom';
+import { clearUserData } from '../../store/slices/userSlice';
 
 // Import components
 import Navbar from './components/Navbar.jsx';
@@ -12,6 +12,7 @@ import NewUsers from './sections/NewUsers/NewUsers.jsx';
 import ActiveUsers from './sections/ActiveUsers/ActiveUsers.jsx';
 import UnactiveUsers from './sections/UnactiveUsers/UnactiveUsers.jsx';
 import ResubscribedUsers from './sections/ResubscribedUsers/ResubscribedUsers.jsx';
+import UserStrategy from './sections/NewUsers/UserStrategy.jsx';
 
 const ADMIN_CREDENTIALS = {
   email: "m_beyahmedkhernache@estin.dz",
@@ -20,8 +21,9 @@ const ADMIN_CREDENTIALS = {
 
 function AdminInterface() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const userData = useSelector((state) => state.user);
+  //const userData = useSelector((state) => state.user);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isExpanded, setIsExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -35,6 +37,19 @@ function AdminInterface() {
       navigate('/login');
     }
   }, [navigate]);
+
+  // Check for tab parameter in URL whenever location changes
+  useEffect(() => {
+    // Get tab from URL query parameters
+    const queryParams = new URLSearchParams(location.search);
+    const tabParam = queryParams.get('tab');
+    
+    if (tabParam) {
+      setActiveTab(tabParam);
+      // Clean up the URL after reading the parameter
+      navigate('/admin', { replace: true });
+    }
+  }, [location, navigate]);
 
   const handleSignOut = () => {
     localStorage.removeItem('adminEmail');
@@ -55,6 +70,8 @@ function AdminInterface() {
         return <UnactiveUsers />;
       case 'resubscribed-users':
         return <ResubscribedUsers />;
+      case 'user-strategy':
+        return <UserStrategy />;
       default:
         return <Dashboard />;
     }

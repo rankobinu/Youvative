@@ -1,12 +1,11 @@
 // Move your existing NewUsers.jsx code here
 // ... existing NewUsers component code ...
-import { useState } from 'react';
 import { FiCheck, FiX, FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
 function NewUsers() {
   const navigate = useNavigate();
-  const [newUsers, setNewUsers] = useState([
+  const newUsers = [
     {
       id: 1,
       username: 'John Doe',
@@ -28,7 +27,7 @@ function NewUsers() {
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'
     },
     // Add more mock data as needed
-  ]);
+  ];
  
 
   const handleSetStrategy = (userId) => {

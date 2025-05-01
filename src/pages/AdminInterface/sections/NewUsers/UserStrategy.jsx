@@ -11,7 +11,7 @@ function UserStrategy() {
   const [userInfo, setUserInfo] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [activeTab, setActiveTab] = useState('new-users');
+  const activeTab='new-users';
   
   // Strategy setting states
   const [showStrategyForms, setShowStrategyForms] = useState(false);
@@ -30,6 +30,12 @@ function UserStrategy() {
   // Success message states
   const [generalStrategySet, setGeneralStrategySet] = useState(false);
   const [monthlyStrategySet, setMonthlyStrategySet] = useState(false);
+
+  // Custom setActiveTab function to handle navigation
+  const handleTabChange = (tabId) => {
+    // Navigate to the admin interface with the selected tab as a URL parameter
+    navigate(`/admin?tab=${tabId}`);
+  };
 
   // Fetch user info when component mounts
   useEffect(() => {
@@ -57,11 +63,11 @@ function UserStrategy() {
 
   // Map of strategy icons
   const strategyIcons = {
-    'Branding Strategy': <FaTiktok className="text-2xl" />,
-    'Engagement Booster': <FaInstagram className="text-2xl" />,
-    'YouTube Starter Kit': <FaYoutube className="text-2xl" />,
-    'Growth Boost': <FaInstagram className="text-2xl" />,
-    'Niche Domination': <div className="flex gap-2"><FaTiktok className="text-2xl" /><FaYoutube className="text-2xl" /><FaInstagram className="text-2xl" /></div>
+    'Branding Strategy': {platformIcon:<FaTiktok className="text-2xl"/>,platform:'TikTok' },
+    'Engagement Booster': {platformIcon:<FaInstagram className="text-2xl" />,platform:'Instagram'},
+    'YouTube Starter Kit': {platformIcon:<FaYoutube className="text-2xl" />,platform:'YouTube'},
+    'Growth Boost': {platformIcon:<FaInstagram className="text-2xl" /> ,platform:'Instagram'},
+    'Niche Domination': {platformIcon:<div className="flex gap-2"><FaTiktok className="text-2xl" /><FaYoutube className="text-2xl" /><FaInstagram className="text-2xl" /></div>,platform:'TikTok, YouTube, Instagram'}
   };
 
   // Strategy descriptions
@@ -144,7 +150,7 @@ function UserStrategy() {
         <div className="flex flex-1 overflow-hidden">
           <Sidebar 
             activeTab={activeTab}
-            setActiveTab={setActiveTab}
+            setActiveTab={handleTabChange}
             isExpanded={isExpanded}
             setIsExpanded={setIsExpanded}
           />
@@ -167,7 +173,7 @@ function UserStrategy() {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar 
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
           isExpanded={isExpanded}
           setIsExpanded={setIsExpanded}
         />
@@ -176,7 +182,7 @@ function UserStrategy() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => navigate('/admin')}
+              onClick={() => navigate('/admin?tab=new-users')}
               className="flex items-center text-gray-400 hover:text-white transition-colors"
             >
               <FiArrowLeft className="mr-2" /> Back to New Users
@@ -196,7 +202,7 @@ function UserStrategy() {
                   <img
                     src={userInfo.avatar}
                     alt={userInfo.userName}
-                    className="w-16 h-16 rounded-full border-2 border-[#5D17E9]"
+                    className="w-16 h-16 rounded-full border-2 border-[ffffff]"
                   />
                   <div>
                     <h3 className="text-xl font-bold text-white">{userInfo.userName}</h3>
@@ -257,7 +263,7 @@ function UserStrategy() {
             
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg">
               <div className="flex items-center gap-4 mb-4">
-                {strategyIcons[userInfo.strategy] || <FaInstagram className="text-2xl text-white" />}
+                {strategyIcons[userInfo.strategy].platformIcon || <FaInstagram className="text-2xl text-white" />}
                 <h3 className="text-xl font-bold text-white">{userInfo.strategy}</h3>
               </div>
               
@@ -269,16 +275,16 @@ function UserStrategy() {
                 <div className="bg-white/5 p-4 rounded">
                   <p className="text-[#21BFE4] font-semibold">Platform Focus</p>
                   <div className="flex gap-2 mt-2 text-white">
-                    {strategyIcons[userInfo.strategy] || <FaInstagram className="text-2xl" />}
+                    {strategyIcons[userInfo.strategy].platform || <FaInstagram className="text-2xl" />}
                   </div>
                 </div>
                 
                 <div className="bg-white/5 p-4 rounded">
                   <p className="text-[#21BFE4] font-semibold">Status</p>
                   <div className="flex items-center mt-2">
-                    <span className="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-500 text-white">
-                      Pending Activation
-                    </span>
+                  <span className='px-2 py-[0.25em] text-sm font-semibold rounded-full bg-white text-yellow-800'>
+                    pending
+                  </span>
                   </div>
                 </div>
               </div>
