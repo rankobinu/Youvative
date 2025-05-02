@@ -1,7 +1,7 @@
-import { FiUser, FiLogOut, FiChevronDown } from 'react-icons/fi';
+import { FiLogOut, FiChevronDown } from 'react-icons/fi';
 import logoBlack from "../../../assets/svg/logo.svg";
 
-function Navbar({ setActiveTab, handleSignOut, showDropdown, setShowDropdown }) {
+function Navbar({ setActiveTab, handleSignOut, showDropdown, setShowDropdown, userData }) {
   return (
     <div className="h-16 bg-white/10 backdrop-blur-md flex items-center justify-between px-6 border-b border-white/10">
       <img src={logoBlack} alt="Logo" className="h-8 cursor-pointer" />
@@ -15,7 +15,12 @@ function Navbar({ setActiveTab, handleSignOut, showDropdown, setShowDropdown }) 
             setShowDropdown(!showDropdown);
           }}
         >
-          <FiUser size={24} className="cursor-pointer" />
+          {/* Replace FiUser icon with user avatar image */}
+          <img 
+            src={userData?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"} 
+            alt="User Avatar" 
+            className="w-8 h-8 rounded-full border-2 border-white/30 cursor-pointer object-cover"
+          />
           <FiChevronDown 
             size={16} 
             className={`ml-1 transition-transform duration-200 cursor-pointer ${showDropdown ? 'rotate-180' : ''}`}
@@ -33,7 +38,11 @@ function Navbar({ setActiveTab, handleSignOut, showDropdown, setShowDropdown }) 
                   setShowDropdown(false);
                 }}
               >
-                <FiUser className="mr-2" size={16} />
+                <img 
+                  src={userData?.avatar || "https://api.dicebear.com/7.x/avataaars/svg?seed=fallback"} 
+                  alt="Profile" 
+                  className="w-4 h-4 rounded-full mr-2"
+                />
                 Profile
               </button>
               <button

@@ -15,11 +15,11 @@ import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 import AdminInterface from './pages/AdminInterface/AdminInterface.jsx';
 import NewUserStrategy from './pages/AdminInterface/sections/NewUsers/NewUserStrategy.jsx';
 import ActiveUserStrategy from './pages/AdminInterface/sections/ActiveUsers/ActiveUserStrategy.jsx';
-import UnactiveUserStrategy from './pages/AdminInterface/sections/UnactiveUsers/UnactiveUserStrategy.jsx';
+import InactiveUserStrategy from './pages/AdminInterface/sections/InactiveUsers/InactiveUserStrategy.jsx';
 import ResubscribedUserStrategy from './pages/AdminInterface/sections/ResubscribedUsers/ResubscribedUserStrategy.jsx';
 import NewUsers from './pages/AdminInterface/sections/NewUsers/NewUsers.jsx';
 import ActiveUsers from './pages/AdminInterface/sections/ActiveUsers/ActiveUsers.jsx';
-import UnactiveUsers from './pages/AdminInterface/sections/UnactiveUsers/UnactiveUsers.jsx';
+import InactiveUsers from './pages/AdminInterface/sections/InactiveUsers/InactiveUsers.jsx';
 import ResubscribedUsers from './pages/AdminInterface/sections/ResubscribedUsers/ResubscribedUsers.jsx';
 
 createRoot(document.getElementById("root")).render(
@@ -39,11 +39,11 @@ createRoot(document.getElementById("root")).render(
           <Route path='/admin' element={<AdminInterface />} />
           <Route path='/admin/user/:userId/newuserstrategy' element={<NewUserStrategy />} />
           <Route path='/admin/user/:userId/activeuserstrategy' element={<ActiveUserStrategy />} />
-          <Route path='/admin/user/:userId/unactiveuserstrategy' element={<UnactiveUserStrategy />} />
+          <Route path='/admin/user/:userId/inactiveuserstrategy' element={<InactiveUserStrategy />} />
           <Route path='/admin/user/:userId/resubscribeduserstrategy' element={<ResubscribedUserStrategy />} />
           <Route path='/admin/user/activeusers' element={<ActiveUsers />} />
           <Route path='/admin/user/resubscribedusers' element={<ResubscribedUsers />} />
-          <Route path='/admin/user/unactiveusers' element={<UnactiveUsers />} />
+          <Route path='/admin/user/unactiveusers' element={<InactiveUsers />} />
           <Route path='/admin/user/newusers' element={<NewUsers />} />
         </Routes>
       </Router>

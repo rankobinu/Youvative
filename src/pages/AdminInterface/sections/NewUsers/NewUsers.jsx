@@ -65,7 +65,7 @@ function NewUsers() {
               <div className="flex justify-between  items-center ">
                 
                 <span className='px-2 py-[0.25em] text-sm font-semibold rounded-full bg-white text-yellow-800'>
-                  pending
+                  {user.status}
                 </span>
 
                 <button

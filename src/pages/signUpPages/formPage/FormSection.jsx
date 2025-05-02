@@ -3,7 +3,7 @@ import Select from "react-select";
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { MdTaskAlt } from 'react-icons/md';
-import { FaInstagram, FaMapMarkerAlt, FaExclamationCircle, FaFlag, FaEdit } from 'react-icons/fa';
+import { FaInstagram, FaMapMarkerAlt, FaExclamationCircle, FaFlag, FaEdit, FaBriefcase } from 'react-icons/fa';
 import { setUserData } from '../../../store/slices/userSlice';
 import logo from "../../../assets/svg/logoBlack.svg";
 
@@ -12,6 +12,7 @@ function FormSection() {
   const navigate = useNavigate();
   const [insta, setInsta] = useState('');
   const [location, setLocation] = useState(null);
+  const [occupation, setOccupation] = useState('');
   const [goals, setGoals] = useState(null);
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
@@ -67,10 +68,10 @@ function FormSection() {
   const customSelectStyles = {
     control: (base) => ({
       ...base,
-      background: 'rgba(178, 143, 250, 0.31)',
+      background: 'rgba(255, 255, 255, 0.05)',
       border: 'none',
       boxShadow: 'none',
-      padding: '0.5rem',
+      padding: '0',
       '&:hover': {
         border: 'none'
       }
@@ -105,6 +106,7 @@ function FormSection() {
     const newErrors = {};
     if (!insta) newErrors.insta = 'Instagram handle is required';
     if (!location) newErrors.location = 'Location is required';
+    if (!occupation) newErrors.occupation = 'Occupation is required';
     if (!goals) newErrors.goals = 'Goals are required';
     if (!description) newErrors.description = 'Description is required';
 
@@ -118,12 +120,14 @@ function FormSection() {
       email: localStorage.getItem('userEmail'),
       instagram: insta,
       location: location.value,
+      occupation: occupation,
       goals: goals.value,
       description: description
     };
 
     dispatch(setUserData(userData));
     localStorage.setItem('userInsta', insta);
+    localStorage.setItem('userOccupation', occupation);
     localStorage.setItem('userDescription', description);
     localStorage.setItem('userLocation', location.value);
     localStorage.setItem('userGoals', goals.value);
@@ -138,7 +142,7 @@ function FormSection() {
           <img src={logo} alt="Youvative Logo" className="-mt-7 -ml-10"/>
         </RouterLink>
       </div>
-      <div className="max-w-6xl mx-auto w-[40%] flex-1 flex flex-col -mt-25">
+      <div className="max-w-5xl mx-auto  flex-1 flex flex-col -mt-25">
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
           <div className="text-center mb-6">
             <div className="flex justify-center items-center gap-6">
@@ -151,67 +155,95 @@ function FormSection() {
             <p className="text-white/80  text-lg">Tell us more about yourself and your goals</p>
           </div>
 
-          <div className="space-y-4 max-w-xl mx-auto w-full -mt-3">
-            <div>
-              <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
-                <FaInstagram className="text-white"/>
-                <input
-                  className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder:content-center placeholder-white/50"
-                  type="text"
-                  placeholder="Instagram"
-                  value={insta}
-                  onChange={(e) => setInsta(e.target.value)}
-                />
-              </div>
-              {errors.insta && (
-                <div className="text-red-500 text-sm flex items-center mt-1">
-                  <FaExclamationCircle className="mr-1" />
-                  <span>{errors.insta}</span>
+          
+            <div className="space-y-4 max-w-xl mx-auto w-full -mt-3">
+              {/* First row: Instagram and Location side by side */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
+                    <FaInstagram className="text-white"/>
+                    <input
+                      className="min-w-[85%] mx-2 pl-3 py-3 self-center bg-transparent text-white outline-none placeholder:content-center placeholder-white/50"
+                      type="text"
+                      placeholder="Instagram"
+                      value={insta}
+                      onChange={(e) => setInsta(e.target.value)}
+                    />
+                  </div>
+                  {errors.insta && (
+                    <div className="text-red-500 text-sm flex items-center mt-1">
+                      <FaExclamationCircle className="mr-1" />
+                      <span>{errors.insta}</span>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                <div>
+                  <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
+                    <FaMapMarkerAlt className="text-white mr-2"/>
+                    <Select
+                      styles={customSelectStyles}
+                      options={locationOptions}
+                      value={location}
+                      onChange={setLocation}
+                    placeholder="Select Location"
+                    className="text-white w-full"
+                  />
+                </div>
+                {errors.location && (
+                  <div className="text-red-500 text-sm flex items-center mt-1">
+                    <FaExclamationCircle className="mr-1" />
+                    <span>{errors.location}</span>
+                  </div>
+                )}
+              </div>
+              </div>
+
+              {/* Second row: Occupation and Goals side by side */}
+              <div className="grid grid-cols-2 gap-4">
+              <div>
+                <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
+                  <FaBriefcase className="text-white"/>
+                  <input
+                    className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder:content-center placeholder-white/50"
+                    type="text"
+                    placeholder="Occupation"
+                    value={occupation}
+                    onChange={(e) => setOccupation(e.target.value)}
+                  />
+                </div>
+                {errors.occupation && (
+                  <div className="text-red-500 text-sm flex items-center mt-1">
+                    <FaExclamationCircle className="mr-1" />
+                    <span>{errors.occupation}</span>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
+                  <FaFlag className="text-white mr-2"/>
+                  <Select
+                    styles={customSelectStyles}
+                    options={goalsOptions}
+                    value={goals}
+                    onChange={setGoals}
+                    placeholder="Select Your Goals"
+                    className="text-white w-full"
+                  />
+                </div>
+                {errors.goals && (
+                  <div className="text-red-500 text-sm flex items-center mt-1">
+                    <FaExclamationCircle className="mr-1" />
+                    <span>{errors.goals}</span>
+                  </div>
+                )}
+              </div>
+              </div>
             </div>
 
-            <div>
-              <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
-                <FaMapMarkerAlt className="text-white mr-2"/>
-                <Select
-                  styles={customSelectStyles}
-                  options={locationOptions}
-                  value={location}
-                  onChange={setLocation}
-                  placeholder="Select Location"
-                  className="text-white w-full"
-                />
-              </div>
-              {errors.location && (
-                <div className="text-red-500 text-sm flex items-center mt-1">
-                  <FaExclamationCircle className="mr-1" />
-                  <span>{errors.location}</span>
-                </div>
-              )}
-            </div>
-
-            <div>
-              <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
-                <FaFlag className="text-white mr-2"/>
-                <Select
-                  styles={customSelectStyles}
-                  options={goalsOptions}
-                  value={goals}
-                  onChange={setGoals}
-                  placeholder="Select Your Goals"
-                  className="text-white w-full"
-                />
-              </div>
-              {errors.goals && (
-                <div className="text-red-500 text-sm flex items-center mt-1">
-                  <FaExclamationCircle className="mr-1" />
-                  <span>{errors.goals}</span>
-                </div>
-              )}
-            </div>
-
-            <div>
+            {/* Description field remains full width at the bottom */}
+            <div className="space-y-4 max-w-xl mx-auto w-full  mt-4">
               <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
                 <FaEdit className="text-white"/>
                 <textarea
@@ -229,7 +261,7 @@ function FormSection() {
                 </div>
               )}
             </div>
-          </div>
+          
 
           <div className="flex flex-col items-center mt-4 pb-20">
             <button

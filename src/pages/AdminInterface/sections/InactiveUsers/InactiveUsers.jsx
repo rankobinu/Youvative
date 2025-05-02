@@ -3,7 +3,7 @@
 import { FiCheck, FiX, FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-function NewUsers() {
+function InactiveUsers() {
   const navigate = useNavigate();
   const newUsers = [
     {
@@ -13,7 +13,7 @@ function NewUsers() {
       email: 'john@example.com',
       occupation: 'Content Creator',
       registrationDate: '2024-02-20',
-      status: 'pending',
+      status: 'inactive',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John' // Using DiceBear for demo avatars
     },
     {
@@ -23,7 +23,7 @@ function NewUsers() {
       email: 'sarah@example.com',
       occupation: 'Fitness Influencer',
       registrationDate: '2024-02-21',
-      status: 'pending',
+      status: 'inactive',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'
     },
     // Add more mock data as needed
@@ -32,7 +32,7 @@ function NewUsers() {
 
   const handleSetStrategy = (userId) => {
     // Navigate to user info page with the user ID
-    navigate(`/admin/user/${userId}/unactiveuserstrategy`);
+    navigate(`/admin/user/${userId}/inactiveuserstrategy`);
   };
 
   return (
@@ -65,7 +65,7 @@ function NewUsers() {
               <div className="flex justify-between items-center">
                 
                 <span className='px-2 py-[0.25em] text-sm font-semibold rounded-full bg-white text-red-500'>
-                  unactive
+                  {user.status}
                 </span>
 
                 <button
@@ -84,4 +84,4 @@ function NewUsers() {
   );
 }
 
-export default NewUsers;
+export default InactiveUsers;

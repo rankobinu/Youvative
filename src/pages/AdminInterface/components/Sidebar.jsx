@@ -18,9 +18,9 @@ function Sidebar({ activeTab, setActiveTab, isExpanded, setIsExpanded }) {
       label: 'Active Users',
     },
     {
-      id: 'unactive-users',
+      id: 'inactive-users',
       icon: FiUserX,
-      label: 'Unactive Users',
+      label: 'Inactive Users',
     },
     {
       id: 'resubscribed-users',

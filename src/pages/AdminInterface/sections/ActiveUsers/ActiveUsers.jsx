@@ -3,7 +3,7 @@
 import { FiCheck, FiX, FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-function NewUsers() {
+function ActiveUsers() {
   const navigate = useNavigate();
   const newUsers=[
     {
@@ -13,7 +13,7 @@ function NewUsers() {
       email: 'john@example.com',
       occupation: 'Content Creator',
       registrationDate: '2024-02-20',
-      status: 'pending',
+      status: 'active',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John' // Using DiceBear for demo avatars
     },
     {
@@ -23,7 +23,7 @@ function NewUsers() {
       email: 'sarah@example.com',
       occupation: 'Fitness Influencer',
       registrationDate: '2024-02-21',
-      status: 'pending',
+      status: 'active',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah'
     },
     // Add more mock data as needed
@@ -84,4 +84,4 @@ function NewUsers() {
   );
 }
 
-export default NewUsers;
+export default ActiveUsers;

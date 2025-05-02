@@ -3,7 +3,7 @@
 import { FiCheck, FiX, FiArrowRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-function NewUsers() {
+function ResubscribedUsers() {
   const navigate = useNavigate();
   const newUsers =[
     {
@@ -65,7 +65,7 @@ function NewUsers() {
               <div className="flex justify-between  items-center ">
                 
                 <span className='px-2 py-[0.25em] text-sm font-semibold rounded-full bg-white text-yellow-800'>
-                  pending
+                  [user.status]
                 </span>
 
                 <button
@@ -84,4 +84,4 @@ function NewUsers() {
   );
 }
 
-export default NewUsers;
+export default ResubscribedUsers;

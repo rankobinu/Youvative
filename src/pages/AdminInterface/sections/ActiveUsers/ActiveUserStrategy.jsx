@@ -5,7 +5,7 @@ import { FiArrowLeft, FiPlus, FiCalendar, FiCheckCircle, FiXCircle, FiClock } fr
 import Navbar from '../../components/Navbar.jsx';
 import Sidebar from '../../components/Sidebar.jsx';
 
-function UserStrategy() {
+function ActiveUserStrategy() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
@@ -99,7 +99,8 @@ function UserStrategy() {
       subscriptionEndDate: '2024-06-20',
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=John${userId}`,
       plan: 'Growth Plan',
-      strategy: 'Branding Strategy'
+      strategy: 'Branding Strategy',
+      status:'active'
     });
     
     // Calculate task counts
@@ -268,8 +269,8 @@ function UserStrategy() {
             </h2>
             
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg">
-              <div className="flex items-center gap-4 mb-4">
-                {strategyIcons[userInfo.strategy].platformIcon || <FaInstagram className="text-2xl text-white" />}
+              <div className="flex items-center gap-4 mb-4 text-white">
+                {strategyIcons[userInfo.strategy].platformIcon || <FaInstagram className="text-2xl " />}
                 <h3 className="text-xl font-bold text-white">{userInfo.strategy}</h3>
               </div>
               
@@ -289,7 +290,7 @@ function UserStrategy() {
                   <p className="text-[#21BFE4] font-semibold">Status</p>
                   <div className="flex items-center mt-2">
                   <span className='px-3 py-[0.25em] text-sm font-semibold rounded-full bg-white text-green-800'>
-                    active                    
+                    {userInfo.status}                    
                   </span>
                   </div>
                 </div>
@@ -467,4 +468,4 @@ function UserStrategy() {
   );
 }
 
-export default UserStrategy;
+export default ActiveUserStrategy;

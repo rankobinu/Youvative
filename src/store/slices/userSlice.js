@@ -1,17 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  email: '',
-  userName: '',
-  instagram: '',
-  location: '',
-  goals: '',
-  description: '',
-  strategy: '',
-  strategyTitle: '',
-  plan: '',
-  planTitle: '',
-  paymentCompleted: false
+  email: 'aly@example.com',
+  userName: 'Aly',
+  instagram: 'Alyy',
+  location: 'Algeria',
+  goals: 'Grow Followers',
+  description: 'Content creator focused on lifestyle and tech reviews',
+  strategy: 'Branding Strategy',
+  plan: 'Growth Plan',
+  status: 'inactive'
 };
 
 const userSlice = createSlice({

@@ -5,13 +5,13 @@ import { FiArrowLeft, FiPlus, FiCalendar, FiCheckCircle, FiXCircle, FiClock } fr
 import Navbar from '../../components/Navbar.jsx';
 import Sidebar from '../../components/Sidebar.jsx';
 
-function UserStrategy() {
+function InactiveUserStrategy() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const activeTab='unactive-users';
+  const activeTab='inactive-users';
   
   // Strategy data states
   const [generalStrategy, ] = useState({
@@ -100,7 +100,8 @@ function UserStrategy() {
       subscriptionEndDate: '2024-05-20', // Added subscription end date (past date for unactive users)
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=John${userId}`,
       plan: 'Growth Plan',
-      strategy: 'Engagement Booster'
+      strategy: 'Engagement Booster',
+      status: 'inactive'
     });
     
     // Calculate task counts
@@ -189,7 +190,7 @@ function UserStrategy() {
               onClick={() => navigate('/admin?tab=unactive-users')}
               className="flex items-center text-gray-400 hover:text-white transition-colors cursor-pointer"
             >
-              <FiArrowLeft className="mr-2" /> Back to Unactive Users
+              <FiArrowLeft className="mr-2" /> Back to Inactive Users
             </button>
           </div>
 
@@ -295,7 +296,7 @@ function UserStrategy() {
                   <p className="text-[#21BFE4] font-semibold">Status</p>
                   <div className="flex items-center mt-2">
                   <span className='px-3 py-[0.25em] text-sm font-semibold rounded-full bg-white text-red-500'>
-                    unactive                    
+                    {userInfo.status}                    
                   </span>
                   </div>
                 </div>
@@ -445,4 +446,4 @@ function UserStrategy() {
   );
 }
 
-export default UserStrategy;
+export default InactiveUserStrategy;
