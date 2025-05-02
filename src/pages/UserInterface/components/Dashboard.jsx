@@ -77,7 +77,8 @@ function Dashboard() {
   }, []);
   
   const navigateToTasks = () => {
-    navigate('/user?tab=tasks');
+    // Navigate to userinterface with the tasks tab parameter
+    navigate('/userinterface?tab=tasks');
   };
   
   const calculateCompletionPercentage = () => {

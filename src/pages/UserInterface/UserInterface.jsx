@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setPageTitle } from "../../utils/pageTitle";
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearUserData } from '../../store/slices/userSlice';
-
-// Import components
-import Navbar from './components/Navbar';
+import { setPageTitle } from '../../utils/pageTitle';
 import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
-import Profile from './components/Profile';
 import Calendar from './components/Calendar';
 import TaskTracker from './components/TaskTracker';
 import PerformanceAnalytics from './components/PerformanceAnalytics';
+import Profile from './components/Profile';
 
 function UserInterface() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -22,11 +21,25 @@ function UserInterface() {
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    setPageTitle('Dashboard');
+    setPageTitle('User Dashboard');
+    
     if (!localStorage.getItem('userEmail')) {
       navigate('/login');
     }
-  }, [navigate]);
+    
+    // Check for tab parameter in URL whenever location changes
+    const queryParams = new URLSearchParams(location.search);
+    const tabParam = queryParams.get('tab');
+    
+    if (tabParam) {
+      setActiveTab(tabParam);
+      // Clean up the URL after reading the parameter (optional)
+      navigate('/userinterface', { replace: true });
+      
+      // Set page title based on the tab
+      setPageTitle(tabParam.charAt(0).toUpperCase() + tabParam.slice(1));
+    }
+  }, [location, navigate]);
 
   const handleSignOut = () => {
     localStorage.clear();
