@@ -92,9 +92,11 @@ function UserStrategy() {
       email: 'john@example.com',
       instagram: '@johndoe',
       location: 'Algeria, DZ',
+      occupation: 'Content Creator', // Added occupation field
       goals: 'Grow audience and increase engagement',
       description: 'Content creator focused on lifestyle and tech reviews',
       registrationDate: '2024-02-20',
+      subscriptionEndDate: '2024-06-20',
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=John${userId}`,
       plan: 'Growth Plan',
       strategy: 'Branding Strategy'
@@ -202,7 +204,7 @@ function UserStrategy() {
                   />
                   <div>
                     <h3 className="text-xl font-bold text-white">{userInfo.userName}</h3>
-                    <p className="text-gray-400">{userInfo.occupation || 'Content Creator'}</p>
+                    <p className="text-gray-400">{userInfo.occupation}</p>
                   </div>
                 </div>
                 
@@ -218,6 +220,10 @@ function UserStrategy() {
                   <div className="flex space-x-2">
                     <p className="text-white font-semibold">Location:</p>
                     <p>{userInfo.location}</p>
+                  </div>
+                  <div className="flex space-x-2">
+                    <p className="text-white font-semibold">Occupation:</p>
+                    <p>{userInfo.occupation}</p>
                   </div>
                   <div className="flex space-x-2">
                     <p className="text-white font-semibold">Goals:</p>
@@ -245,6 +251,10 @@ function UserStrategy() {
                   <div className="bg-white/5 p-4 rounded">
                     <p className="text-[#21BFE4] font-semibold">Registration Date</p>
                     <p className="text-white">{userInfo.registrationDate}</p>
+                  </div>
+                  <div className="bg-white/5 p-4 rounded">
+                    <p className="text-[#21BFE4] font-semibold">Subscription End Date</p>
+                    <p className="text-white">{userInfo.subscriptionEndDate}</p>
                   </div>
                 </div>
               </div>

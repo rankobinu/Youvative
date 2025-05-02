@@ -89,7 +89,7 @@ function UserStrategy() {
         title: 'Product Review',
         purpose: 'Showcase expertise and provide value to followers',
         completed: false,
-        status: 'upcoming'
+        status: 'missed'
       },
       {
         id: 4,
@@ -98,7 +98,7 @@ function UserStrategy() {
         title: 'Trending Challenge',
         purpose: 'Leverage current trends for increased reach',
         completed: false,
-        status: 'upcoming'
+        status: 'missed'
       },
       {
         id: 5,
@@ -116,7 +116,8 @@ function UserStrategy() {
   const [taskCounts, setTaskCounts] = useState({
     done: 0,
     missed: 0,
-    upcoming: 0
+    total: 0,
+    completionRate: 0
   });
   
   // Strategy setting states
@@ -149,21 +150,29 @@ function UserStrategy() {
     email: 'john@example.com',
     instagram: '@johndoe',
     location: 'Algeria, DZ',
+    occupation: 'Content Creator', // Added occupation field
     goals: 'Grow audience and increase engagement',
     description: 'Content creator focused on lifestyle and tech reviews',
     registrationDate: '2024-02-20',
+    previousSubscriptionEndDate: '2024-05-01', // Added previous subscription end date
+    subscriptionEndDate: '2024-07-01', // Added new subscription end date
     avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=John${userId}`,
     plan: 'Growth Plan',
     strategy: 'Branding Strategy'
   });
   
   // Calculate task counts
-  const counts = {
-    done: monthlyStrategy.tasks.filter(task => task.status === 'done').length,
-    missed: monthlyStrategy.tasks.filter(task => task.status === 'missed').length,
-    upcoming: monthlyStrategy.tasks.filter(task => task.status === 'upcoming').length
-  };
-  setTaskCounts(counts);
+  const done = monthlyStrategy.tasks.filter(task => task.status === 'done').length;
+  const missed = monthlyStrategy.tasks.filter(task => task.status === 'missed').length;
+  const total = monthlyStrategy.tasks.length;
+  const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
+  
+  setTaskCounts({
+    done,
+    missed,
+    total,
+    completionRate
+  });
   
   // In a real app, you would fetch the general and monthly strategies here
 }, [userId, monthlyStrategy.tasks]);
@@ -306,7 +315,7 @@ function UserStrategy() {
                   />
                   <div>
                     <h3 className="text-xl font-bold text-white">{userInfo.userName}</h3>
-                    <p className="text-gray-400">{userInfo.occupation || 'Content Creator'}</p>
+                    <p className="text-gray-400">{userInfo.occupation}</p>
                   </div>
                 </div>
                 
@@ -322,6 +331,10 @@ function UserStrategy() {
                   <div className="flex space-x-2">
                     <p className="text-white font-semibold">Location:</p>
                     <p>{userInfo.location}</p>
+                  </div>
+                  <div className="flex space-x-2">
+                    <p className="text-white font-semibold">Occupation:</p>
+                    <p>{userInfo.occupation}</p>
                   </div>
                   <div className="flex space-x-2">
                     <p className="text-white font-semibold">Goals:</p>
@@ -349,6 +362,14 @@ function UserStrategy() {
                   <div className="bg-white/5 p-4 rounded">
                     <p className="text-[#21BFE4] font-semibold">Registration Date</p>
                     <p className="text-white">{userInfo.registrationDate}</p>
+                  </div>
+                  <div className="bg-white/5 p-4 rounded">
+                    <p className="text-[#21BFE4] font-semibold">Previous Subscription End</p>
+                    <p className="text-white">{userInfo.previousSubscriptionEndDate}</p>
+                  </div>
+                  <div className="bg-white/5 p-4 rounded">
+                    <p className="text-[#21BFE4] font-semibold">Current Subscription End</p>
+                    <p className="text-white">{userInfo.subscriptionEndDate}</p>
                   </div>
                 </div>
               </div>
@@ -445,9 +466,9 @@ function UserStrategy() {
                           
                   <div className="bg-white/5 p-4 rounded">
                             <div className="flex justify-between items-center">
-                              <p className="text-[#21BFE4] font-semibold">Upcoming Tasks</p>
-                              <span className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full text-sm font-semibold">
-                                {taskCounts.upcoming}
+                              <p className="text-[#21BFE4] font-semibold">Completion Rate</p>
+                              <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm font-semibold">
+                                {taskCounts.completionRate}%
                               </span>
                             </div>
                   </div>
@@ -479,8 +500,9 @@ function UserStrategy() {
                                     Completed
                                   </span>
                               </div>
-                      </div>
-                                  ))}
+                            </div>
+                          ))
+                        }
                       </div>
                     </div>
                   )}
