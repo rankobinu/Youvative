@@ -28,45 +28,49 @@ function Dashboard() {
       title: 'New Users',
       value: stats.newUsers,
       icon: FiUserPlus,
-      color: 'from-green-400 to-green-600'
+      color: 'from-green-400/70 to-green-600/70',
+      textColor: 'text-green-400'
     },
     {
       title: 'Active Users',
       value: stats.activeUsers,
       icon: FiUsers,
-      color: 'from-[#21BFE4] to-blue-600'
+      color: 'from-[#21BFE4]/70 to-blue-600/70',
+      textColor: 'text-[#21BFE4]'
     },
     {
       title: 'Inactive Users',
       value: stats.inactiveUsers,
       icon: FiUserX,
-      color: 'from-red-400 to-red-600'
+      color: 'from-red-400/70 to-red-600/70',
+      textColor: 'text-red-400'
     },
     {
       title: 'Resubscribed',
       value: stats.resubscribedUsers,
       icon: FiRefreshCw,
-      color: 'from-[#5E15EB] to-purple-700'
+      color: 'from-[#5E15EB]/70 to-purple-700/70',
+      textColor: 'text-[#5E15EB]'
     }
   ];
 
   // Data for the first pie chart: Inactive vs Others
   const inactiveVsOthersData = [
-    { name: 'Inactive Users', value: stats.inactiveUsers, color: '#EF4444' },
-    { name: 'Other Users', value: stats.activeUsers + stats.newUsers + stats.resubscribedUsers, color: '#21BFE4' }
+    { name: 'Inactive Users', value: stats.inactiveUsers, color: 'rgba(239, 68, 68, 0.7)' },
+    { name: 'Other Users', value: stats.activeUsers + stats.newUsers + stats.resubscribedUsers, color: 'rgba(33, 191, 228, 0.7)' }
   ];
 
   // Data for the second pie chart: Resubscribed vs (Inactive + Resubscribed)
   const resubscribedVsInactiveData = [
-    { name: 'Resubscribed Users', value: stats.resubscribedUsers, color: '#5E15EB' },
-    { name: 'Inactive Users', value: stats.inactiveUsers, color: '#EF4444' }
+    { name: 'Resubscribed Users', value: stats.resubscribedUsers, color: 'rgba(94, 21, 235, 0.7)' },
+    { name: 'Inactive Users', value: stats.inactiveUsers, color: 'rgba(239, 68, 68, 0.7)' }
   ];
 
   // Custom tooltip for pie charts
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#1F0B38] p-3 border border-[#5E15EB] rounded-lg shadow-lg backdrop-blur-md">
+        <div className="bg-[#1F0B38]/90 p-3 border border-[#5E15EB]/50 rounded-lg shadow-lg backdrop-blur-md">
           <p className="text-white font-semibold">{`${payload[0].name}: ${payload[0].value}`}</p>
           <p className="text-gray-400 text-sm">{`${Math.round((payload[0].value / stats.totalUsers) * 100)}% of total`}</p>
         </div>
@@ -98,7 +102,7 @@ function Dashboard() {
                 <p className="text-gray-400 text-sm font-medium">{card.title}</p>
               </div>
               <h2 className="text-3xl font-bold text-white">{card.value}</h2>
-              <p className="text-gray-400 text-sm mt-2">
+              <p className={`${card.textColor} text-sm mt-2`}>
                 {Math.round((card.value / stats.totalUsers) * 100)}% of total users
               </p>
             </div>
@@ -110,7 +114,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="bg-white/5 backdrop-blur-md rounded-lg shadow-lg border border-white/10 p-6">
           <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
-            <span className="inline-block w-2 h-6 bg-[#21BFE4] rounded-full mr-3"></span>
+            <span className="inline-block w-2 h-6 bg-[#21BFE4]/70 rounded-full mr-3"></span>
             Inactive vs Other Users
           </h3>
           <div className="h-64">
@@ -150,7 +154,7 @@ function Dashboard() {
                 <p className="text-white text-2xl font-bold">
                   {Math.round((stats.inactiveUsers / stats.totalUsers) * 100)}%
                 </p>
-                <p className="text-red-400 text-sm mb-1">
+                <p className="text-red-400/80 text-sm mb-1">
                   {stats.inactiveUsers} users
                 </p>
               </div>
@@ -161,7 +165,7 @@ function Dashboard() {
                 <p className="text-white text-2xl font-bold">
                   {Math.round(((stats.totalUsers - stats.inactiveUsers) / stats.totalUsers) * 100)}%
                 </p>
-                <p className="text-[#21BFE4] text-sm mb-1">
+                <p className="text-[#21BFE4]/80 text-sm mb-1">
                   {stats.totalUsers - stats.inactiveUsers} users
                 </p>
               </div>
@@ -171,7 +175,7 @@ function Dashboard() {
         
         <div className="bg-white/5 backdrop-blur-md rounded-lg shadow-lg border border-white/10 p-6">
           <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
-            <span className="inline-block w-2 h-6 bg-[#5E15EB] rounded-full mr-3"></span>
+            <span className="inline-block w-2 h-6 bg-[#5E15EB]/70 rounded-full mr-3"></span>
             Resubscribed vs Inactive Users
           </h3>
           <div className="h-64">
@@ -211,7 +215,7 @@ function Dashboard() {
                 <p className="text-white text-2xl font-bold">
                   {Math.round((stats.resubscribedUsers / (stats.inactiveUsers + stats.resubscribedUsers)) * 100)}%
                 </p>
-                <p className="text-[#5E15EB] text-sm mb-1">
+                <p className="text-[#5E15EB]/80 text-sm mb-1">
                   {stats.resubscribedUsers} users
                 </p>
               </div>
@@ -222,7 +226,7 @@ function Dashboard() {
                 <p className="text-white text-2xl font-bold">
                   {stats.inactiveUsers} users
                 </p>
-                <p className="text-red-400 text-sm mb-1">
+                <p className="text-red-400/80 text-sm mb-1">
                   to recover
                 </p>
               </div>
