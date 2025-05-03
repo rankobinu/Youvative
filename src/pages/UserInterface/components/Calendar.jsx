@@ -9,6 +9,7 @@ function Calendar() {
   const [selectedDateTasks, setSelectedDateTasks] = useState([]);
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set to beginning of day for accurate comparison
+  
   // Mock data - In a real app, this would come from an API
   useEffect(() => {
     // Mock subscription start date (in a real app, this would come from user data)
@@ -22,7 +23,7 @@ function Calendar() {
         date: currentDate,
         formattedDate: currentDate.toISOString().split('T')[0],
         dayOfMonth: currentDate.getDate(),
-        dayName: currentDate.toLocaleDateString('en-US', { weekday: 'long' }),
+        dayName: currentDate.toLocaleDateString('en-US', { weekday: 'short' }),
         monthName: currentDate.toLocaleDateString('en-US', { month: 'long' }),
         isPast: currentDate < today
       });
@@ -73,7 +74,7 @@ function Calendar() {
       }
     ];
     setTasks(mockTasks);
-  }, []);
+  }, []); // Empty dependency array to run only once on component mount
   
   const hasTasksForDate = (date) => {
     return tasks.some(task => task.date === date);
@@ -140,6 +141,11 @@ function Calendar() {
     weeks.push(calendarDays.slice(i, i + 7));
   }
 
+  // Get the first 7 days of the calendar to use for the header
+  const headerDays = calendarDays.slice(0, 7).map(day => 
+    new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' })
+  );
+
   // Check if a date is today
   const isToday = (date) => {
     const today = new Date();
@@ -157,7 +163,7 @@ function Calendar() {
         
         {/* Calendar Header - Days of Week */}
         <div className="grid grid-cols-7 gap-1 mb-2 text-center">
-          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, index) => (
+          {headerDays.map((day, index) => (
             <div key={index} className="text-[#21BFE4] font-semibold p-2">
               {day}
             </div>
@@ -220,7 +226,7 @@ function Calendar() {
             </div>
           ))}
         </div>
-       
+      
       </div>
       
       {/* Task Modal */}
