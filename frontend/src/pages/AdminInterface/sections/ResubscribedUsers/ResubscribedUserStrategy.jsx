@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { FaTiktok, FaYoutube, FaInstagram } from "react-icons/fa";
-import { FiArrowLeft, FiPlus, FiCalendar, FiCheckCircle, FiXCircle, FiClock } from 'react-icons/fi';
-import Navbar from '../../components/Navbar.jsx';
-import Sidebar from '../../components/Sidebar.jsx';
-import Select from 'react-select';
-import adminService from '../../../../services/adminService';
+import {
+  FiArrowLeft,
+  FiPlus,
+  FiCalendar,
+  FiCheckCircle,
+  FiXCircle,
+  FiClock,
+} from "react-icons/fi";
+import Navbar from "../../components/Navbar.jsx";
+import Sidebar from "../../components/Sidebar.jsx";
+import Select from "react-select";
+import adminService from "../../../../services/adminService";
 
 function ResubscribedUserStrategy() {
   const { userId } = useParams();
@@ -15,146 +22,191 @@ function ResubscribedUserStrategy() {
   const [error, setError] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const activeTab = 'resubscribed-users';
+  const activeTab = "resubscribed-users";
   // Custom Select Styles
   const customSelectStyles = {
     control: (base) => ({
       ...base,
-      background: 'rgba(255, 255, 255, 0.05)',
-      border: 'none',
-      boxShadow: 'none',
-      padding: '0',
-      '&:hover': {
-        border: 'none'
-      }
+      background: "rgba(255, 255, 255, 0.05)",
+      border: "none",
+      boxShadow: "none",
+      padding: "0",
+      "&:hover": {
+        border: "none",
+      },
     }),
     option: (base, state) => ({
       ...base,
-      backgroundColor: state.isSelected ? '#5E15EB' : 'rgba(178, 143, 250, 0.5)',
-      color: 'white',
-      '&:hover': {
-        backgroundColor: '#5E15EB'
-      }
+      backgroundColor: state.isSelected
+        ? "#5E15EB"
+        : "rgba(178, 143, 250, 0.5)",
+      color: "white",
+      "&:hover": {
+        backgroundColor: "#5E15EB",
+      },
     }),
     menu: (base) => ({
       ...base,
-      backgroundColor: 'rgba(178, 143, 250, 0.31)',
-      backdropFilter: 'blur(10px)'
+      backgroundColor: "rgba(178, 143, 250, 0.31)",
+      backdropFilter: "blur(10px)",
     }),
     singleValue: (base) => ({
       ...base,
-      color: 'white'
+      color: "white",
     }),
     placeholder: (base) => ({
       ...base,
-      color: 'rgba(255, 255, 255, 0.5)'
-    })
+      color: "rgba(255, 255, 255, 0.5)",
+    }),
   };
   // Options for the Select component
-  const taskTypes=[
+  const taskTypes = [
     { value: "video", label: "Video" },
     { value: "story", label: "Story" },
     { value: "reel", label: "Reel" },
-    { value: "post", label: "Post" }   
-  ]
-
-  // Strategy data states
-  const [generalStrategy, ] = useState({
-    goal: 'Build a Consistent TikTok Presence',
-    description: 'Focus on creating a recognizable personal brand through consistent posting schedule and visual identity. Leverage trending sounds and hashtags while maintaining your unique style to stand out in the algorithm.'
-  });
-  
-  const [monthlyStrategy, ] = useState({
-    goal: 'Increase engagement rate by 15% and gain 500 new followers by creating consistent, high-quality content that resonates with the target audience.',
-    description: 'Focus on creating authentic content that showcases your expertise while maintaining a consistent posting schedule.',
-    tasks: [
-      {
-        id: 1,
-        date: '2024-05-10',
-        type: 'Reel',
-        title: 'Day in the Life',
-        purpose: 'Show authentic behind-the-scenes to connect with audience',
-        completed: true,
-        status: 'done'
-      },
-      {
-        id: 2,
-        date: '2024-05-15',
-        type: 'Story',
-        title: 'Q&A Session',
-        purpose: 'Increase engagement through direct interaction',
-        completed: false,
-        status: 'missed'
-      },
-      {
-        id: 3,
-        date: '2024-05-20',
-        type: 'Video',
-        title: 'Product Review',
-        purpose: 'Showcase expertise and provide value to followers',
-        completed: false,
-        status: 'missed'
-      },
-      {
-        id: 4,
-        date: '2024-05-25',
-        type: 'Reel',
-        title: 'Trending Challenge',
-        purpose: 'Leverage current trends for increased reach',
-        completed: false,
-        status: 'missed'
-      },
-      {
-        id: 5,
-        date: '2024-05-05',
-        type: 'Post',
-        title: 'Motivational Quote',
-        purpose: 'Inspire audience and reinforce brand values',
-        completed: true,
-        status: 'done'
-      }
-    ]
-  });
+    { value: "post", label: "Post" },
+  ];
 
   // Task counts
   const [taskCounts, setTaskCounts] = useState({
     done: 0,
     missed: 0,
     total: 0,
-    completionRate: 0
+    completionRate: 0,
   });
-  
+
   // Strategy setting states
   const [showStrategyForms, setShowStrategyForms] = useState(false);
-  const [monthlyGoal, setMonthlyGoal] = useState('');
-  const [tasks, setTasks] = useState([]);
-  
+  const [monthlyGoal, setMonthlyGoal] = useState("");
+  const [monthlyDescription, setMonthlyDescription] = useState("");
+
   // New task form states
   const [showTaskForm, setShowTaskForm] = useState(false);
-  const [taskDate, setTaskDate] = useState('');
+  const [taskDate, setTaskDate] = useState("");
   const [taskType, setTaskType] = useState(null); // Changed from '' to null for react-select
-  const [taskTitle, setTaskTitle] = useState('');
-  const [taskPurpose, setTaskPurpose] = useState('');
-  
-  // Success message states
-  const [monthlyStrategySet, setMonthlyStrategySet] = useState(false);
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskPurpose, setTaskPurpose] = useState("");
 
+  const [tasks, setTasks] = useState([]); // State to hold tasks
+  // Success message states
   // Map of strategy icons
   const strategyIcons = {
-    'branding-strategy': {platformIcon:<FaTiktok className="text-2xl"/>, platform:'TikTok'},
-    'engagement-booster': {platformIcon:<FaInstagram className="text-2xl" />, platform:'Instagram'},
-    'youtube-starter': {platformIcon:<FaYoutube className="text-2xl" />, platform:'YouTube'},
-    'growth-boost': {platformIcon:<FaInstagram className="text-2xl" />, platform:'Instagram'},
-    'niche-domination': {platformIcon:<div className="flex gap-2"><FaTiktok className="text-2xl" /><FaYoutube className="text-2xl" /><FaInstagram className="text-2xl" /></div>, platform:'TikTok, YouTube, Instagram'}
+    "branding-strategy": {
+      platformIcon: <FaTiktok className="text-2xl" />,
+      platform: "TikTok",
+    },
+    "engagement-booster": {
+      platformIcon: <FaInstagram className="text-2xl" />,
+      platform: "Instagram",
+    },
+    "youtube-starter": {
+      platformIcon: <FaYoutube className="text-2xl" />,
+      platform: "YouTube",
+    },
+    "growth-boost": {
+      platformIcon: <FaInstagram className="text-2xl" />,
+      platform: "Instagram",
+    },
+    "niche-domination": {
+      platformIcon: (
+        <div className="flex gap-2">
+          <FaTiktok className="text-2xl" />
+          <FaYoutube className="text-2xl" />
+          <FaInstagram className="text-2xl" />
+        </div>
+      ),
+      platform: "TikTok, YouTube, Instagram",
+    },
   };
 
   // Strategy descriptions
   const strategyDescriptions = {
-    'branding-strategy': 'Build a consistent and professional personal brand with 3 reels/week + Q&A scheme guide',
-    'engagement-booster': 'Improve interaction and comments on posts with a goal of +20% engagement rate',
-    'youtube-starter': 'Align content between platforms for wider reach with 2 videos/week + Q&A post',
-    'growth-boost': 'Increase reach and attract new followers with a goal of +500 followers in 1 month',
-    'niche-domination': 'Focus on dominating a specific niche with weekly expert content across platforms'
+    "branding-strategy":
+      "Build a consistent and professional personal brand with 3 reels/week + Q&A scheme guide",
+    "engagement-booster":
+      "Improve interaction and comments on posts with a goal of +20% engagement rate",
+    "youtube-starter":
+      "Align content between platforms for wider reach with 2 videos/week + Q&A post",
+    "growth-boost":
+      "Increase reach and attract new followers with a goal of +500 followers in 1 month",
+    "niche-domination":
+      "Focus on dominating a specific niche with weekly expert content across platforms",
+  };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [strategySubmitted, setStrategySubmitted] = useState(false);
+  const [monthlyStrategySet, setMonthlyStrategySet] = useState(false);
+
+  const handleSetMonthlyStrategy = async () => {
+    if (!monthlyGoal || !monthlyDescription || tasks.length === 0) {
+      alert(
+        "Please set a monthly goal, description, and add at least one task",
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare data for API
+
+      const monthlyStrategy = {
+        goal: monthlyGoal,
+        description: monthlyDescription,
+        tasks: tasks,
+      };
+
+      // Send to API
+      const response = await adminService.setMonthlyStrategy(
+        userId,
+        monthlyStrategy,
+      );
+
+      if (response.success) {
+        setStrategySubmitted(true);
+
+        // Show success message for 3 seconds
+        setTimeout(() => {
+          setStrategySubmitted(false);
+          // Optionally navigate back or refresh
+          navigate("/admin?tab=new-users");
+        }, 3000);
+      } else {
+        throw new Error(response.error || "Failed to set strategy");
+      }
+    } catch (error) {
+      console.error("Error setting strategy:", error);
+      setError(error.message || "Failed to set strategy");
+    } finally {
+      setIsSubmitting(false);
+      setMonthlyStrategySet(true);
+    }
+  };
+
+  const handleAddTask = () => {
+    if (!taskDate || !taskType || !taskTitle || !taskPurpose) {
+      alert("Please fill in all task fields");
+      return;
+    }
+
+    const newTask = {
+      id: Date.now(),
+      date: taskDate,
+      type: taskType.value, // Extract value from the Select component option
+      headline: taskTitle,
+      purpose: taskPurpose,
+      completed: false,
+      status: "upcoming",
+    };
+
+    setTasks([...tasks, newTask]);
+
+    // Reset form fields
+    setTaskDate("");
+    setTaskType(null); // Reset to null for react-select
+    setTaskTitle("");
+    setTaskPurpose("");
+    setShowTaskForm(false);
   };
 
   useEffect(() => {
@@ -162,13 +214,33 @@ function ResubscribedUserStrategy() {
       try {
         setIsLoading(true);
         setError(null);
-        console.log('Fetching user details for ID:', userId);
+        console.log("Fetching user details for ID:", userId);
         const userData = await adminService.getUserDetails(userId);
-        console.log('Received user data:', userData);
+        console.log("Received user data:", userData);
         setUser(userData);
+
+        if (userData) {
+          // Calculate task counts
+          const doneTasks = userData.monthlyStrategy.tasks?.filter(
+            (task) => task.status === "done",
+          ).length;
+          const missedTasks = userData.monthlyStrategy.tasks?.filter(
+            (task) => task.status === "missed",
+          ).length;
+          const totalTasks = doneTasks + missedTasks;
+          const completionRate =
+            totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+
+          setTaskCounts({
+            done: doneTasks ?? 0,
+            missed: missedTasks ?? 0,
+            total: totalTasks,
+            completionRate,
+          });
+        }
       } catch (error) {
-        console.error('Error fetching user details:', error);
-        setError(error.message || 'Failed to load user details');
+        console.error("Error fetching user details:", error);
+        setError(error.message || "Failed to load user details");
       } finally {
         setIsLoading(false);
       }
@@ -178,9 +250,9 @@ function ResubscribedUserStrategy() {
   }, [userId]);
 
   const handleSignOut = () => {
-    localStorage.removeItem('adminEmail');
-    localStorage.removeItem('adminPassword');
-    navigate('/login');
+    localStorage.removeItem("adminEmail");
+    localStorage.removeItem("adminPassword");
+    navigate("/login");
   };
 
   // Custom setActiveTab function to handle navigation
@@ -192,13 +264,13 @@ function ResubscribedUserStrategy() {
   if (isLoading) {
     return (
       <div className="flex flex-col h-screen bg-[#29104A]">
-        <Navbar 
+        <Navbar
           handleSignOut={handleSignOut}
           showDropdown={showDropdown}
           setShowDropdown={setShowDropdown}
         />
         <div className="flex flex-1 overflow-hidden">
-          <Sidebar 
+          <Sidebar
             activeTab={activeTab}
             setActiveTab={handleTabChange}
             isExpanded={isExpanded}
@@ -216,13 +288,13 @@ function ResubscribedUserStrategy() {
   if (error) {
     return (
       <div className="flex flex-col h-screen bg-[#29104A]">
-        <Navbar 
+        <Navbar
           handleSignOut={handleSignOut}
           showDropdown={showDropdown}
           setShowDropdown={setShowDropdown}
         />
         <div className="flex flex-1 overflow-hidden">
-          <Sidebar 
+          <Sidebar
             activeTab={activeTab}
             setActiveTab={handleTabChange}
             isExpanded={isExpanded}
@@ -242,13 +314,13 @@ function ResubscribedUserStrategy() {
   if (!user) {
     return (
       <div className="flex flex-col h-screen bg-[#29104A]">
-        <Navbar 
+        <Navbar
           handleSignOut={handleSignOut}
           showDropdown={showDropdown}
           setShowDropdown={setShowDropdown}
         />
         <div className="flex flex-1 overflow-hidden">
-          <Sidebar 
+          <Sidebar
             activeTab={activeTab}
             setActiveTab={handleTabChange}
             isExpanded={isExpanded}
@@ -264,14 +336,14 @@ function ResubscribedUserStrategy() {
 
   return (
     <div className="flex flex-col h-screen bg-[#29104A]">
-      <Navbar 
+      <Navbar
         handleSignOut={handleSignOut}
         showDropdown={showDropdown}
         setShowDropdown={setShowDropdown}
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar 
+        <Sidebar
           activeTab={activeTab}
           setActiveTab={handleTabChange}
           isExpanded={isExpanded}
@@ -282,7 +354,7 @@ function ResubscribedUserStrategy() {
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => navigate('/admin?tab=resubscribed-users')}
+              onClick={() => navigate("/admin?tab=resubscribed-users")}
               className="flex items-center text-gray-400 hover:text-white transition-colors cursor-pointer"
             >
               <FiArrowLeft className="mr-2" /> Back to Resubscribed Users
@@ -294,7 +366,7 @@ function ResubscribedUserStrategy() {
             <h2 className="text-2xl font-semibold text-white mb-4">
               Profile Information
             </h2>
-            
+
             <div className="flex gap-6 flex-col md:flex-row">
               {/* Profile Information Section */}
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg flex-1">
@@ -305,11 +377,13 @@ function ResubscribedUserStrategy() {
                     className="w-16 h-16 rounded-full border-2 border-[ffffff]"
                   />
                   <div>
-                    <h3 className="text-xl font-bold text-white">{user.userName}</h3>
+                    <h3 className="text-xl font-bold text-white">
+                      {user.userName}
+                    </h3>
                     <p className="text-gray-400">{user.occupation}</p>
                   </div>
                 </div>
-                
+
                 <div className="space-y-4 text-white">
                   <div className="flex space-x-2">
                     <p className="text-white font-semibold">Email:</p>
@@ -340,27 +414,43 @@ function ResubscribedUserStrategy() {
 
               {/* Subscription Details Section */}
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg flex-1">
-                <h3 className="text-xl font-semibold mb-4 text-white">Subscription Details</h3>
+                <h3 className="text-xl font-semibold mb-4 text-white">
+                  Subscription Details
+                </h3>
                 <div className="space-y-4">
                   <div className="bg-white/5 p-4 rounded">
-                    <p className="text-[#21BFE4] font-semibold">Selected Plan</p>
+                    <p className="text-[#21BFE4] font-semibold">
+                      Selected Plan
+                    </p>
                     <p className="text-white">{user.plan}</p>
                   </div>
                   <div className="bg-white/5 p-4 rounded">
-                    <p className="text-[#21BFE4] font-semibold">Selected Strategy</p>
+                    <p className="text-[#21BFE4] font-semibold">
+                      Selected Strategy
+                    </p>
                     <p className="text-white">{user.strategy}</p>
                   </div>
                   <div className="bg-white/5 p-4 rounded">
-                    <p className="text-[#21BFE4] font-semibold">Registration Date</p>
+                    <p className="text-[#21BFE4] font-semibold">
+                      Registration Date
+                    </p>
                     <p className="text-white">{user.registrationDate}</p>
                   </div>
                   <div className="bg-white/5 p-4 rounded">
-                    <p className="text-[#21BFE4] font-semibold">Subscription End Date</p>
-                    <p className="text-white">{user.subscriptionEndDate || 'Not available'}</p>
+                    <p className="text-[#21BFE4] font-semibold">
+                      Subscription End Date
+                    </p>
+                    <p className="text-white">
+                      {user.subscriptionEndDate || "Not available"}
+                    </p>
                   </div>
                   <div className="bg-white/5 p-4 rounded">
-                    <p className="text-[#21BFE4] font-semibold">Previous Subscription End</p>
-                    <p className="text-white">{user.previousSubscriptionEnd || 'Not available'}</p>
+                    <p className="text-[#21BFE4] font-semibold">
+                      Previous Subscription End
+                    </p>
+                    <p className="text-white">
+                      {user.previousSubscriptionEnd || "Not available"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -372,29 +462,34 @@ function ResubscribedUserStrategy() {
             <h2 className="text-2xl font-semibold text-white mb-4">
               Strategy Details
             </h2>
-            
+
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg">
               <div className="flex items-center gap-4 mb-4 text-white">
-                {strategyIcons[user.strategy]?.platformIcon || <FaInstagram className="text-2xl" />}
-                <h3 className="text-xl font-bold text-white">{user.strategy}</h3>
+                {strategyIcons[user.strategy]?.platformIcon || (
+                  <FaInstagram className="text-2xl" />
+                )}
+                <h3 className="text-xl font-bold text-white">
+                  {user.strategy}
+                </h3>
               </div>
-              
+
               <p className="text-gray-300 mb-6">
-                {strategyDescriptions[user.strategy] || 'Custom strategy for content creation and audience growth.'}
+                {strategyDescriptions[user.strategy] ||
+                  "Custom strategy for content creation and audience growth."}
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white/5 p-4 rounded">
                   <p className="text-[#21BFE4] font-semibold">Platform Focus</p>
                   <div className="flex gap-2 mt-2 text-white">
-                    {strategyIcons[user.strategy]?.platform || 'Instagram'}
+                    {strategyIcons[user.strategy]?.platform || "Instagram"}
                   </div>
                 </div>
-                
+
                 <div className="bg-white/5 p-4 rounded">
                   <p className="text-[#21BFE4] font-semibold">Status</p>
                   <div className="flex items-center mt-2">
-                    <span className='px-2 text-md font-semibold rounded-full bg-white text-purple-600'>
+                    <span className="px-2 text-md font-semibold rounded-full bg-white text-purple-600">
                       {user.status}
                     </span>
                   </div>
@@ -408,12 +503,14 @@ function ResubscribedUserStrategy() {
             <h2 className="text-2xl font-semibold text-white mb-4">
               General Strategy
             </h2>
-            
+
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg">
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-white mb-2">{generalStrategy.headline}</h3>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {user.generalStrategy[0].goal}
+                </h3>
                 <p className="text-gray-300">
-                  {generalStrategy.description}
+                  {user.generalStrategy[0].description || ""}
                 </p>
               </div>
             </div>
@@ -424,125 +521,143 @@ function ResubscribedUserStrategy() {
             <h2 className="text-2xl font-semibold text-white mb-4">
               Last Active Month Achievement
             </h2>
-                      
+
             <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg">
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-white mb-2">Monthly Goal</h3>
-                <p className="text-gray-300">
-                  {monthlyStrategy.goal}
-                </p>
-                </div>
-                        
-                {/* Task Summary */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-white/5 p-4 rounded">
-                    <div className="flex justify-between items-center">
-                      <p className="text-[#21BFE4] font-semibold">Done Tasks</p>
-                      <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
-                        {taskCounts.done}
-                      </span>
-                    </div>
-                  </div>
-                          
-                  <div className="bg-white/5 p-4 rounded">
-                            <div className="flex justify-between items-center">
-                              <p className="text-[#21BFE4] font-semibold">Missed Tasks</p>
-                              <span className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-semibold">
-                                {taskCounts.missed}
-                              </span>
-                            </div>
-                  </div>
-                          
-                  <div className="bg-white/5 p-4 rounded">
-                            <div className="flex justify-between items-center">
-                              <p className="text-[#21BFE4] font-semibold">Completion Rate</p>
-                              <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm font-semibold">
-                                {taskCounts.completionRate}%
-                              </span>
-                            </div>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Monthly Goal
+                </h3>
+                <p className="text-gray-300">{user.monthlyStrategy[0].goal}</p>
+              </div>
+
+              {/* Task Summary */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="bg-white/5 p-4 rounded">
+                  <div className="flex justify-between items-center">
+                    <p className="text-[#21BFE4] font-semibold">Done Tasks</p>
+                    <span className="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
+                      {taskCounts.done}
+                    </span>
                   </div>
                 </div>
-                        
-                {/* Task Categories */}
-                <div className="space-y-6">
-                  {/* Done Tasks */}
-                  {monthlyStrategy.tasks.filter(task => task.status === 'done').length > 0 && (
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-                                <FiCheckCircle className="text-green-400 mr-2" /> Done Tasks
-                      </h3>
-                      <div className="space-y-3">
-                        {monthlyStrategy.tasks
-                          .filter(task => task.status === 'done')
-                          .map(task => (
-                            <div key={task.id} className="bg-white/5 p-4 rounded-lg flex items-start justify-between border-l-4 border-green-400">
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                          <span className="text-[#21BFE4] font-semibold">{task.date}</span>
-                                          <span className="text-white">{task.title}</span>
-                                </div>
-                                <p className="text-gray-400">{task.purpose}</p>
-                              </div>
-                              <div className="flex items-center">
-                                <span className="text-[#21BFE4] font-semibold mr-2">{task.type}</span>
-                                  <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">
-                                    Completed
-                                  </span>
-                              </div>
-                            </div>
-                          ))
-                        }
-                      </div>
-                    </div>
-                  )}
-                          
-                  {/* Missed Tasks */}
-                  {monthlyStrategy.tasks.filter(task => task.status === 'missed').length > 0 && (
-                    <div>
-                      <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
-                                <FiXCircle className="text-red-400 mr-2" /> Missed Tasks
-                      </h3>
-                      <div className="space-y-3">
-                        {monthlyStrategy.tasks
-                          .filter(task => task.status === 'missed')
-                          .map(task => (
-                            <div key={task.id} className="bg-white/5 p-4 rounded-lg flex items-start justify-between border-l-4 border-red-400">
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-[#21BFE4] font-semibold">{task.date}</span>
-                                  <span className="text-white">{task.title}</span>
-                                </div>
-                                <p className="text-gray-400">{task.purpose}</p>
-                              </div>
-                              <div className="flex items-center">
-                                <span className="text-[#21BFE4] font-semibold mr-2">{task.type}</span>
-                                <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">
-                                  Missed
-                                </span>
-                              </div>
-                            </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                                           
+
+                <div className="bg-white/5 p-4 rounded">
+                  <div className="flex justify-between items-center">
+                    <p className="text-[#21BFE4] font-semibold">Missed Tasks</p>
+                    <span className="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-semibold">
+                      {taskCounts.missed}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-white/5 p-4 rounded">
+                  <div className="flex justify-between items-center">
+                    <p className="text-[#21BFE4] font-semibold">
+                      Completion Rate
+                    </p>
+                    <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm font-semibold">
+                      {taskCounts.completionRate}%
+                    </span>
+                  </div>
                 </div>
               </div>
+
+              {/* Task Categories */}
+              <div className="space-y-6">
+                {/* Done Tasks */}
+                {user.tasks?.filter((task) => task.status === "done").length >
+                  0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                      <FiCheckCircle className="text-green-400 mr-2" /> Done
+                      Tasks
+                    </h3>
+                    <div className="space-y-3">
+                      {user.tasks
+                        ?.filter((task) => task.status === "done")
+                        .map((task) => (
+                          <div
+                            key={task.id}
+                            className="bg-white/5 p-4 rounded-lg flex items-start justify-between border-l-4 border-green-400"
+                          >
+                            <div>
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-[#21BFE4] font-semibold">
+                                  {task.date}
+                                </span>
+                                <span className="text-white">{task.title}</span>
+                              </div>
+                              <p className="text-gray-400">{task.purpose}</p>
+                            </div>
+                            <div className="flex items-center">
+                              <span className="text-[#21BFE4] font-semibold mr-2">
+                                {task.type}
+                              </span>
+                              <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs">
+                                Completed
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Missed Tasks */}
+                {user.tasks?.filter((task) => task.status === "missed").length >
+                  0 && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+                      <FiXCircle className="text-red-400 mr-2" /> Missed Tasks
+                    </h3>
+                    <div className="space-y-3">
+                      {user.tasks
+                        ?.filter((task) => task.status === "missed")
+                        .map((task) => (
+                          <div
+                            key={task.id}
+                            className="bg-white/5 p-4 rounded-lg flex items-start justify-between border-l-4 border-red-400"
+                          >
+                            <div>
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="text-[#21BFE4] font-semibold">
+                                  {task.date}
+                                </span>
+                                <span className="text-white">{task.title}</span>
+                              </div>
+                              <p className="text-gray-400">{task.purpose}</p>
+                            </div>
+                            <div className="flex items-center">
+                              <span className="text-[#21BFE4] font-semibold mr-2">
+                                {task.type}
+                              </span>
+                              <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">
+                                Missed
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
+          </div>
 
           {/* Strategy Setting Forms (shown after clicking Set Strategy) */}
           {showStrategyForms && (
-            <div className="mt-8 space-y-8">            
-              
+            <div className="mt-8 space-y-8">
               {/* Monthly Strategy Section */}
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg">
                 <h2 className="text-2xl font-semibold text-white mb-4">
                   Set Current Month Strategy
                 </h2>
-                
+
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-white mb-2">Monthly Goal</label>
+                    <label className="block text-white mb-2">
+                      Monthly Goal
+                    </label>
                     <textarea
                       value={monthlyGoal}
                       onChange={(e) => setMonthlyGoal(e.target.value)}
@@ -550,11 +665,24 @@ function ResubscribedUserStrategy() {
                       className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white min-h-[100px]"
                     />
                   </div>
-                  
+                  <div>
+                    <label className="block text-white mb-2">
+                      Monthly Description
+                    </label>
+                    <textarea
+                      value={monthlyDescription}
+                      onChange={(e) => setMonthlyDescription(e.target.value)}
+                      placeholder="Describe the goal for this month"
+                      className="w-full p-3 bg-white/5 border border-white/20 rounded-lg text-white min-h-[100px]"
+                    />
+                  </div>
+
                   {/* Task List */}
                   <div>
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-xl font-semibold text-white">Tasks</h3>
+                      <h3 className="text-xl font-semibold text-white">
+                        Tasks
+                      </h3>
                       <button
                         onClick={() => setShowTaskForm(true)}
                         className="flex items-center px-4 py-2 bg-[#5D17E9]/70 hover:bg-[#5D17E9] text-white rounded-lg transition-colors cursor-pointer"
@@ -562,14 +690,18 @@ function ResubscribedUserStrategy() {
                         <FiPlus className="mr-2" /> Add Task
                       </button>
                     </div>
-                    
+
                     {/* Task Form */}
                     {showTaskForm && (
                       <div className="bg-white/5 p-4 rounded-lg mb-4">
-                        <h4 className="text-lg font-semibold text-white mb-3">New Task</h4>
+                        <h4 className="text-lg font-semibold text-white mb-3">
+                          New Task
+                        </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                           <div>
-                            <label className="block text-white mb-1">Date</label>
+                            <label className="block text-white mb-1">
+                              Date
+                            </label>
                             <input
                               type="date"
                               value={taskDate}
@@ -578,18 +710,24 @@ function ResubscribedUserStrategy() {
                             />
                           </div>
                           <div>
-                            <label className="block text-white mb-1">Type</label>
+                            <label className="block text-white mb-1">
+                              Type
+                            </label>
                             <Select
                               styles={customSelectStyles}
                               options={taskTypes}
                               value={taskType}
-                              onChange={(selectedOption) => setTaskType(selectedOption)}
+                              onChange={(selectedOption) =>
+                                setTaskType(selectedOption)
+                              }
                               placeholder="Select task type"
                               className="w-full bg-white/5 border border-white/20 rounded-lg text-white"
                             />
                           </div>
                           <div>
-                            <label className="block text-white mb-1">Title</label>
+                            <label className="block text-white mb-1">
+                              Title
+                            </label>
                             <input
                               type="text"
                               value={taskTitle}
@@ -599,7 +737,9 @@ function ResubscribedUserStrategy() {
                             />
                           </div>
                           <div>
-                            <label className="block text-white mb-1">Purpose</label>
+                            <label className="block text-white mb-1">
+                              Purpose
+                            </label>
                             <input
                               type="text"
                               value={taskPurpose}
@@ -625,22 +765,31 @@ function ResubscribedUserStrategy() {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Task List */}
                     {tasks.length > 0 ? (
                       <div className="space-y-3">
-                        {tasks.map(task => (
-                          <div key={task.id} className="bg-white/5 p-4 rounded-lg flex items-start justify-between">
+                        {tasks.map((task) => (
+                          <div
+                            key={task.id}
+                            className="bg-white/5 p-4 rounded-lg flex items-start justify-between"
+                          >
                             <div>
                               <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[#21BFE4] font-semibold">{task.date}</span>
+                                <span className="text-[#21BFE4] font-semibold">
+                                  {task.date}
+                                </span>
                                 <span className="text-white">{task.title}</span>
                               </div>
                               <p className="text-gray-400">{task.purpose}</p>
                             </div>
                             <div className="flex items-center">
-                              <span className="text-[#21BFE4] font-semibold mr-2">{task.type}</span>
-                              <span className="text-white">{!task.completed ? 'Pending' : 'Completed'}</span>
+                              <span className="text-[#21BFE4] font-semibold mr-2">
+                                {task.type}
+                              </span>
+                              <span className="text-white">
+                                {!task.completed ? "Pending" : "Completed"}
+                              </span>
                             </div>
                           </div>
                         ))}
@@ -651,41 +800,45 @@ function ResubscribedUserStrategy() {
                       </div>
                     )}
                   </div>
-                  
-                  <div className="flex justify-end">
-                    <button
-                      onClick={handleSetMonthlyStrategy}
-                      className="px-6 py-3 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors cursor-pointer"
-                    >
-                      Set Monthly Strategy
-                    </button>
-                  </div>
-                  
+
+                  {!showStrategyForms && (
+                    <div className="flex justify-end">
+                      <button
+                        onClick={handleSetMonthlyStrategy}
+                        className="px-6 py-3 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors cursor-pointer"
+                      >
+                        Set Monthly Strategy
+                      </button>
+                    </div>
+                  )}
+
                   {monthlyStrategySet && (
                     <div className="mt-2 p-3 bg-green-500/20 border border-green-500 rounded-lg text-green-400 flex items-center">
-                      <FiCheckCircle className="mr-2" /> Monthly strategy has been set successfully!
+                      <FiCheckCircle className="mr-2" /> Monthly strategy has
+                      been set successfully!
                     </div>
                   )}
                 </div>
               </div>
             </div>
           )}
-          
+
           {/* Action Buttons */}
           <div className="flex justify-end gap-4 mt-8">
             <button
-              onClick={() => navigate('/admin')}
+              onClick={() => navigate("/admin")}
               className="px-6 py-3 rounded-lg font-semibold bg-gray-600 text-white hover:bg-gray-700 transition-colors cursor-pointer"
             >
               Back to Dashboard
             </button>
-            
+
             <button
               onClick={() => {
                 // Here you would implement the logic to approve the user
-                setShowStrategyForms(true)               
+                handleSetMonthlyStrategy();
+                setShowStrategyForms(true);
               }}
-              className="px-6 py-3 rounded-lg font-semibold bg-[#5D17E9] text-white hover:bg-[#4A12BA] transition-colors cursor-pointer"
+              className="px-6 py-3 rounded-lg font-semibold bg-[#462e77] text-white hover:bg-[#4A12BA] transition-colors cursor-pointer"
             >
               Set Strategy
             </button>

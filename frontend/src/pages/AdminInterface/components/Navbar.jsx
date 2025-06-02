@@ -1,13 +1,13 @@
-import { FiUser, FiLogOut, FiChevronDown } from 'react-icons/fi';
+import { FiUser, FiLogOut, FiChevronDown } from "react-icons/fi";
 import logoBlack from "../../../assets/svg/logo.svg";
 
 function Navbar({ handleSignOut, showDropdown, setShowDropdown }) {
   return (
-    <div className="h-16 bg-white/10 backdrop-blur-md flex items-center justify-between px-6 border-b border-white/10">
+    <div className="h-16 bg-white/10 backdrop-blur-md flex items-center justify-between px-6 border-b border-white/10 z-50">
       <img src={logoBlack} alt="Logo" className="h-8 cursor-pointer" />
-      
+
       <div className="relative user-dropdown z-50">
-        <button 
+        <button
           className="flex items-center text-white hover:text-[#5D17E9] transition-colors cursor-pointer"
           onClick={(e) => {
             e.stopPropagation();
@@ -16,9 +16,9 @@ function Navbar({ handleSignOut, showDropdown, setShowDropdown }) {
         >
           <FiUser size={24} className="cursor-pointer" />
           <span className="mx-2">Admin</span>
-          <FiChevronDown 
-            size={16} 
-            className={`transition-transform duration-200 cursor-pointer ${showDropdown ? 'rotate-180' : ''}`}
+          <FiChevronDown
+            size={16}
+            className={`transition-transform duration-200 cursor-pointer ${showDropdown ? "rotate-180" : ""}`}
           />
         </button>
 
