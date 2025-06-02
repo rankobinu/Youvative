@@ -4,13 +4,13 @@ import FormSection from "./FormSection";
 
 function FormPage() {
   useEffect(() => {
-    setPageTitle('Form');
+    setPageTitle("Form");
   }, []);
 
-  return(
+  return (
     <div className="bg-gradient-to-t from-[#5E4683] to-[#150F1D] w-full h-screen overflow-hidden">
-      <FormSection/>
+      <FormSection />
     </div>
-  )
+  );
 }
 export default FormPage;

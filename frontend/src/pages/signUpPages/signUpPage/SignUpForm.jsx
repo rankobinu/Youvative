@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import logo from "../../../assets/svg/logoBlack.svg";
 import {
   FaEye,
@@ -8,43 +8,51 @@ import {
   FaEnvelope,
   FaExclamationCircle,
   FaUser,
-  FaArrowRight
+  FaArrowRight,
 } from "react-icons/fa";
-import { MdTaskAlt } from 'react-icons/md';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { updateSignUpData, nextStep } from '../../../store/slices/registerSlice';
+import { MdTaskAlt } from "react-icons/md";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import {
+  updateSignUpData,
+  nextStep,
+} from "../../../store/slices/registerSlice";
 
 function SignUpForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({
-    email: '',
-    password: '',
-    username: '',
-    confirmPassword: ''
+    email: "",
+    password: "",
+    username: "",
+    confirmPassword: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [registrationError, setRegistrationError] = useState('');
+  const [registrationError, setRegistrationError] = useState("");
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem('userEmail');
-    const savedUserName = localStorage.getItem('userName');
+    const savedEmail = localStorage.getItem("userEmail");
+    const savedUserName = localStorage.getItem("userName");
     if (savedEmail) setEmail(savedEmail);
     if (savedUserName) setUsername(savedUserName);
   }, []);
 
   const validateForm = () => {
-    let tempErrors = { email: '', password: '', username: '', confirmPassword: '' };
+    let tempErrors = {
+      email: "",
+      password: "",
+      username: "",
+      confirmPassword: "",
+    };
     let isValid = true;
 
     if (!username) {
-      tempErrors.username = 'Name is required';
+      tempErrors.username = "Name is required";
       isValid = false;
     } else if (/[./%]/.test(username)) {
       tempErrors.username = `Name cannot contain special characters like ".", "/", "%" etc.`;
@@ -52,26 +60,26 @@ function SignUpForm() {
     }
 
     if (!email) {
-      tempErrors.email = 'Email is required';
+      tempErrors.email = "Email is required";
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      tempErrors.email = 'Email is invalid';
+      tempErrors.email = "Email is invalid";
       isValid = false;
     }
 
     if (!password) {
-      tempErrors.password = 'Password is required';
+      tempErrors.password = "Password is required";
       isValid = false;
     } else if (password.length < 6) {
-      tempErrors.password = 'Password must be at least 6 characters';
+      tempErrors.password = "Password must be at least 6 characters";
       isValid = false;
     }
 
     if (!confirmPassword) {
-      tempErrors.confirmPassword = 'Please confirm your password';
+      tempErrors.confirmPassword = "Please confirm your password";
       isValid = false;
     } else if (confirmPassword !== password) {
-      tempErrors.confirmPassword = 'Passwords do not match';
+      tempErrors.confirmPassword = "Passwords do not match";
       isValid = false;
     }
 
@@ -82,24 +90,26 @@ function SignUpForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setRegistrationError('');
+    setRegistrationError("");
 
     if (validateForm()) {
       try {
-        localStorage.setItem('userEmail', email);
-        localStorage.setItem('userName', username);
-        
+        localStorage.setItem("userEmail", email);
+        localStorage.setItem("userName", username);
+
         // Update sign up data in Redux store
         dispatch(updateSignUpData({ email, username, password }));
-        
+
         // Move to next step
         dispatch(nextStep());
-        
+
         // Navigate to form page
-        navigate('/form');
+        navigate("/form");
       } catch (error) {
-        console.error('Error during sign up:', error);
-        setRegistrationError(error.message || 'Registration failed. Please try again.');
+        console.error("Error during sign up:", error);
+        setRegistrationError(
+          error.message || "Registration failed. Please try again.",
+        );
       } finally {
         setIsSubmitting(false);
       }
@@ -122,11 +132,15 @@ function SignUpForm() {
               <MdTaskAlt className="text-gray-500 text-4xl" />
               <MdTaskAlt className="text-gray-500 text-4xl" />
             </div>
-            <h1 className="text-[#5E15EB] text-4xl font-extrabold mb-6">Create Account</h1>
+            <h1 className="text-[#5E15EB] text-4xl font-extrabold mb-6">
+              Create Account
+            </h1>
 
             {/* Full Name */}
             <div className="mt-2 my-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.username ? 'border border-red-500' : ''}`}>
+              <div
+                className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.username ? "border border-red-500" : ""}`}
+              >
                 <span className="self-center text-white">
                   <FaUser />
                 </span>
@@ -148,7 +162,9 @@ function SignUpForm() {
 
             {/* Email */}
             <div className="mb-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md ${errors.email ? 'border border-red-500' : ''}`}>
+              <div
+                className={`flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md ${errors.email ? "border border-red-500" : ""}`}
+              >
                 <span className="self-center text-white">
                   <FaEnvelope />
                 </span>
@@ -171,7 +187,9 @@ function SignUpForm() {
 
             {/* Password */}
             <div className="my-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.password ? 'border border-red-500' : ''}`}>
+              <div
+                className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.password ? "border border-red-500" : ""}`}
+              >
                 <span className="self-center text-white">
                   <FaLock />
                 </span>
@@ -201,7 +219,9 @@ function SignUpForm() {
 
             {/* Confirm Password */}
             <div className="my-2">
-              <div className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.confirmPassword ? 'border border-red-500' : ''}`}>
+              <div
+                className={`flex px-4 bg-[#B28FFA4F] justify-start min-h-13 text-lg rounded-md ${errors.confirmPassword ? "border border-red-500" : ""}`}
+              >
                 <span className="self-center text-white">
                   <FaArrowRight />
                 </span>
@@ -231,11 +251,15 @@ function SignUpForm() {
 
             {/* Registration Error */}
             {registrationError && (
-              <div className="text-red-600 mt-2 text-sm">{registrationError}</div>
+              <div className="text-red-600 mt-2 text-sm">
+                {registrationError}
+              </div>
             )}
 
             <p className="text-[#9B9B9B] hover:text-[#FFFFFF] transition-colors duration-300 mt-4">
-              <RouterLink to="/login">Already have an account? Log in</RouterLink>
+              <RouterLink to="/login">
+                Already have an account? Log in
+              </RouterLink>
             </p>
 
             <button
@@ -243,7 +267,7 @@ function SignUpForm() {
               className="bg-[#5D17E9] text-white text-xl rounded-lg py-3 px-16 font-bold transition-all duration-300 hover:bg-[#4A12BA] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer mt-6"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Signing Up...' : 'Sign Up'}
+              {isSubmitting ? "Signing Up..." : "Sign Up"}
             </button>
           </div>
         </div>

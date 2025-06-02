@@ -1,11 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-body{
+body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  background-color: #29104A;
+  background-color: #29104a;
 }
 
 ::-webkit-scrollbar {
@@ -13,23 +13,19 @@ body{
   height: 8px;
 }
 
-
 ::-webkit-scrollbar-track {
-  background: #1F0B38;
+  background: #1f0b38;
   border-radius: 4px;
 }
-
 
 ::-webkit-scrollbar-thumb {
   background: #2575fc;
   border-radius: 4px;
 }
 
-
 ::-webkit-scrollbar-thumb:hover {
   background: #6a11cb;
 }
-
 
 :root {
   --radius: 0.625rem;
@@ -146,9 +142,17 @@ body{
     @apply bg-background text-foreground;
   }
 }
-@layer utilities{
+@layer utilities {
   .mask-border {
-    -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 1) 100%);
-    mask-image: radial-gradient(circle, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 1) 100%);
+    -webkit-mask-image: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0) 40%,
+      rgba(0, 0, 0, 1) 100%
+    );
+    mask-image: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0) 40%,
+      rgba(0, 0, 0, 1) 100%
+    );
   }
 }

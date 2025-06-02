@@ -1,39 +1,41 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import userService from '../../services/userService';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import userService from "../../services/userService";
 
 export const fetchUserProfile = createAsyncThunk(
-  'user/fetchProfile',
+  "user/fetchProfile",
   async (_, { rejectWithValue }) => {
     try {
       const response = await userService.getUserProfile();
       return response.data.user;
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to fetch profile');
+      return rejectWithValue(error.response?.data || "Failed to fetch profile");
     }
-  }
+  },
 );
 
 export const fetchSubscriptionDetails = createAsyncThunk(
-  'user/fetchSubscription',
+  "user/fetchSubscription",
   async (_, { rejectWithValue }) => {
     try {
       const response = await userService.getSubscriptionDetails();
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || 'Failed to fetch subscription');
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch subscription",
+      );
     }
-  }
+  },
 );
 
 const initialState = {
   profile: null,
   subscription: null,
   loading: false,
-  error: null
+  error: null,
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     clearUserData: (state) => {
@@ -41,7 +43,7 @@ const userSlice = createSlice({
       state.subscription = null;
       state.loading = false;
       state.error = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,7 +60,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+
       // Handle fetchSubscriptionDetails
       .addCase(fetchSubscriptionDetails.pending, (state) => {
         state.loading = true;
@@ -72,7 +74,7 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
-  }
+  },
 });
 
 export const { clearUserData } = userSlice.actions;

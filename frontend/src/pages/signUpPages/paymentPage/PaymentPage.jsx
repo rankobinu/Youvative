@@ -4,12 +4,12 @@ import PaymentSection from "./PaymentSection";
 
 function PaymentPage() {
   useEffect(() => {
-    setPageTitle('Payment');
+    setPageTitle("Payment");
   }, []);
 
-  return(
+  return (
     <div className="bg-gradient-to-t from-[#5E4683] to-[#150F1D] w-full h-screen overflow-hidden">
-      <PaymentSection/>
+      <PaymentSection />
     </div>
   );
 }

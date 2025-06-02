@@ -4,14 +4,14 @@ import StrategySection from "./StrategySection";
 
 function StrategyPage() {
   useEffect(() => {
-    setPageTitle('Choose Strategy');
+    setPageTitle("Choose Strategy");
   }, []);
 
-  return(
+  return (
     <div className="bg-gradient-to-t from-[#5E4683] to-[#150F1D] w-full">
-      <StrategySection/>
+      <StrategySection />
     </div>
-  )
+  );
 }
 
 export default StrategyPage;

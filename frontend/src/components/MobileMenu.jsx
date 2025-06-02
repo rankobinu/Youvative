@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import { Link as RouterLink } from 'react-router-dom';
-import { Link as ScrollLink } from 'react-scroll';
+import { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { Link as RouterLink } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 
 function MobileMenu({ activeSection }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +16,8 @@ function MobileMenu({ activeSection }) {
 
   return (
     <div className="lg:hidden">
-      <button 
-        onClick={toggleMenu} 
+      <button
+        onClick={toggleMenu}
         className="text-white p-2 focus:outline-none"
         aria-label={isOpen ? "Close menu" : "Open menu"}
       >
@@ -28,8 +28,8 @@ function MobileMenu({ activeSection }) {
       {isOpen && (
         <div className="fixed inset-0 z-50 bg-[#29104A] bg-opacity-95 flex flex-col">
           <div className="flex justify-end p-4">
-            <button 
-              onClick={closeMenu} 
+            <button
+              onClick={closeMenu}
               className="text-white p-2 focus:outline-none"
               aria-label="Close menu"
             >
@@ -114,16 +114,16 @@ function MobileMenu({ activeSection }) {
             </ScrollLink>
 
             <div className="flex flex-col space-y-4 mt-6 w-full items-center">
-              <RouterLink 
-                to="/login" 
+              <RouterLink
+                to="/login"
                 className="text-white text-xl hover:text-[#8E98A8] transition-colors duration-300"
                 onClick={closeMenu}
               >
                 Login
               </RouterLink>
 
-              <RouterLink 
-                to="/signup" 
+              <RouterLink
+                to="/signup"
                 onClick={closeMenu}
                 className="bg-gradient-to-r from-[#5614D2] to-[#292531] hover:from-[#5614D2] hover:to-[#E9EBF8] p-[1px] rounded-md w-40 text-center"
               >

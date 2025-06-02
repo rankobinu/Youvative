@@ -1,16 +1,21 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import subscriptionService from '../../services/subscriptionService';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import subscriptionService from "../../services/subscriptionService";
 
 export const createSubscription = createAsyncThunk(
-  'subscription/create',
+  "subscription/create",
   async ({ userId, subscriptionData }, { rejectWithValue }) => {
     try {
-      const data = await subscriptionService.createSubscription(userId, subscriptionData);
+      const data = await subscriptionService.createSubscription(
+        userId,
+        subscriptionData,
+      );
       return data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || { message: 'Subscription creation failed' });
+      return rejectWithValue(
+        error.response?.data || { message: "Subscription creation failed" },
+      );
     }
-  }
+  },
 );
 
 const initialState = {
@@ -21,7 +26,7 @@ const initialState = {
 };
 
 const subscriptionSlice = createSlice({
-  name: 'subscription',
+  name: "subscription",
   initialState,
   reducers: {
     clearSubscriptionState: (state) => {
@@ -45,7 +50,8 @@ const subscriptionSlice = createSlice({
       })
       .addCase(createSubscription.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || 'Failed to create subscription';
+        state.error =
+          action.payload?.message || "Failed to create subscription";
       });
   },
 });

@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearUserData } from '../../store/slices/userSlice';
-import { setPageTitle } from '../../utils/pageTitle';
-import Sidebar from './components/Sidebar';
-import Navbar from './components/Navbar';
-import Dashboard from './components/Dashboard';
-import Calendar from './components/Calendar';
-import TaskTracker from './components/TaskTracker';
-import PerformanceAnalytics from './components/PerformanceAnalytics';
-import Profile from './components/Profile';
-import userService from '../../services/userService';
-import authService from '../../services/authService';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUserData } from "../../store/slices/userSlice";
+import { setPageTitle } from "../../utils/pageTitle";
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
+import Calendar from "./components/Calendar";
+import TaskTracker from "./components/TaskTracker";
+import PerformanceAnalytics from "./components/PerformanceAnalytics";
+import Profile from "./components/Profile";
+import userService from "../../services/userService";
+import authService from "../../services/authService";
 
 function UserInterface() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [isExpanded, setIsExpanded] = useState(true);
   const [showDropdown, setShowDropdown] = useState(false);
   const [userData, setUserData] = useState({});
@@ -27,45 +27,48 @@ function UserInterface() {
   // Set active tab based on URL query parameter
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const tab = params.get('tab');
-    if (tab && ['dashboard', 'calendar', 'tasks', 'performance', 'profile'].includes(tab)) {
+    const tab = params.get("tab");
+    if (
+      tab &&
+      ["dashboard", "calendar", "tasks", "performance", "profile"].includes(tab)
+    ) {
       setActiveTab(tab);
     }
   }, [location]);
 
   useEffect(() => {
-    setPageTitle('User Dashboard');
-    
+    setPageTitle("User Dashboard");
+
     const fetchUserData = async () => {
       try {
         setIsLoading(true);
-        
+
         // Check if user is authenticated
         if (!authService.isAuthenticated()) {
-          navigate('/login');
+          navigate("/login");
           return;
         }
-        
+
         // Fetch user profile data
         const profileData = await userService.getUserProfile();
-        
+
         // Fetch subscription details if needed
         let subscriptionData = {};
         try {
           subscriptionData = await userService.getSubscriptionDetails();
         } catch (subError) {
-          console.error('Error fetching subscription data:', subError);
+          console.error("Error fetching subscription data:", subError);
           // Continue without subscription data
         }
-        
+
         // Set user data in state based on the actual response structure
         setUserData({
           ...profileData.data,
-          subscription: subscriptionData
+          subscription: subscriptionData,
         });
       } catch (error) {
-        console.error('Error fetching user data:', error);
-        setError(error.message || 'Failed to load user data');
+        console.error("Error fetching user data:", error);
+        setError(error.message || "Failed to load user data");
       } finally {
         setIsLoading(false);
       }
@@ -77,34 +80,34 @@ function UserInterface() {
   const handleSignOut = () => {
     localStorage.clear();
     dispatch(clearUserData());
-    navigate('/login');
+    navigate("/login");
   };
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest('.user-dropdown')) {
+      if (!event.target.closest(".user-dropdown")) {
         setShowDropdown(false);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
   const renderContent = () => {
-    switch(activeTab) {
-      case 'dashboard':
+    switch (activeTab) {
+      case "dashboard":
         return <Dashboard />;
-      case 'calendar':
+      case "calendar":
         return <Calendar />;
-      case 'tasks':
+      case "tasks":
         return <TaskTracker />;
-      case 'performance':
+      case "performance":
         return <PerformanceAnalytics />;
-      case 'profile':
+      case "profile":
         return <Profile userData={userData} />;
       default:
         return <Dashboard />;
@@ -113,7 +116,7 @@ function UserInterface() {
 
   return (
     <div className="flex flex-col h-screen bg-[#29104A]">
-      <Navbar 
+      <Navbar
         setActiveTab={setActiveTab}
         handleSignOut={handleSignOut}
         showDropdown={showDropdown}
@@ -122,7 +125,7 @@ function UserInterface() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar 
+        <Sidebar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           isExpanded={isExpanded}

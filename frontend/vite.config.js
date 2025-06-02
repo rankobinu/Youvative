@@ -14,28 +14,28 @@ export default defineConfig({
     },
   },
   server: {
-    port:5173,
+    port: 5173,
     strictPort: true,
     proxy: {
       // Proxy API requests during development
-      '/api': {
-        target: 'https://youvative-backend.onrender.com',
+      "/api": {
+        target: "https://youvative-backend.onrender.com",
         changeOrigin: true,
         secure: true,
-      }
-    }
+      },
+    },
   },
   build: {
-    outDir: 'dist',
+    outDir: "dist",
     sourcemap: false,
     // Reduce chunk size
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['react-icons', 'recharts'],
-        }
-      }
-    }
-  }
+          vendor: ["react", "react-dom", "react-router-dom"],
+          ui: ["react-icons", "recharts"],
+        },
+      },
+    },
+  },
 });

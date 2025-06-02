@@ -1,30 +1,30 @@
-import { useState, useEffect } from 'react';
-import { FiArrowRight } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import adminService from '../../../../services/adminService';
+import { useState, useEffect } from "react";
+import { FiArrowRight } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import adminService from "../../../../services/adminService";
 
 function ActiveUsers() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [pagination, setPagination] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchActiveUsers = async () => {
       try {
         setIsLoading(true);
         const response = await adminService.getActiveUsers();
-        
+
         if (response.success && response.data) {
           setUsers(response.data.users || []);
           setPagination(response.data.pagination || null);
         } else {
-          throw new Error('Invalid response format');
+          throw new Error("Invalid response format");
         }
       } catch (error) {
-        console.error('Error fetching active users:', error);
-        setError(error.message || 'Failed to load active users');
+        console.error("Error fetching active users:", error);
+        setError(error.message || "Failed to load active users");
       } finally {
         setIsLoading(false);
       }
@@ -45,7 +45,11 @@ function ActiveUsers() {
   // Format date from backend format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
   };
 
   return (
@@ -61,7 +65,7 @@ function ActiveUsers() {
       ) : (
         <div className="space-y-6 p-4">
           <h1 className="text-3xl font-bold text-white mb-8">Active Users</h1>
-          
+
           {pagination && (
             <div className="text-white mb-4">
               Showing {users.length} of {pagination.total} users
@@ -75,14 +79,14 @@ function ActiveUsers() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {users.map((user) => (
-                <div 
+                <div
                   key={user.id}
                   className="bg-[#B28FFA4F] hover:bg-[#5E15EB]/50 rounded-xl overflow-hidden transition-transform hover:transform hover:scale-105"
                 >
                   {/* Card Header with Avatar */}
                   <div className="relative">
-                    <div className="h-24 "/>
-                    <img 
+                    <div className="h-24 " />
+                    <img
                       src={getAvatarUrl(user.username)}
                       alt={user.username}
                       className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-20 h-20 rounded-full border-4 bg-[#5E15EB]/50"
@@ -91,14 +95,17 @@ function ActiveUsers() {
 
                   {/* Card Body */}
                   <div className="pt-12 p-6 text-center">
-                    <h3 className="text-xl font-bold text-white mb-1">{user.username}</h3>
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      {user.username}
+                    </h3>
                     <p className="text-white text-sm mb-2">{user.email}</p>
-                    <p className="text-white text-sm mb-4">Joined: {formatDate(user.created_at)}</p>
+                    <p className="text-white text-sm mb-4">
+                      Joined: {formatDate(user.created_at)}
+                    </p>
 
                     {/* Action Buttons */}
                     <div className="flex justify-between items-center">
-                      
-                      <span className='px-3 py-[0.25em] text-sm font-semibold rounded-full bg-white text-green-800'>
+                      <span className="px-3 py-[0.25em] text-sm font-semibold rounded-full bg-white text-green-800">
                         {user.status}
                       </span>
 

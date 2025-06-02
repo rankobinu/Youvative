@@ -1,20 +1,27 @@
-import { useState } from 'react';
+import { useState } from "react";
 import Select from "react-select";
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { MdTaskAlt } from 'react-icons/md';
-import { FaInstagram, FaMapMarkerAlt, FaExclamationCircle, FaFlag, FaEdit, FaBriefcase } from 'react-icons/fa';
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { MdTaskAlt } from "react-icons/md";
+import {
+  FaInstagram,
+  FaMapMarkerAlt,
+  FaExclamationCircle,
+  FaFlag,
+  FaEdit,
+  FaBriefcase,
+} from "react-icons/fa";
 import logo from "../../../assets/svg/logoBlack.svg";
-import { updateFormData, nextStep } from '../../../store/slices/registerSlice';
+import { updateFormData, nextStep } from "../../../store/slices/registerSlice";
 
 function FormSection() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [insta, setInsta] = useState('');
+  const [insta, setInsta] = useState("");
   const [location, setLocation] = useState(null);
-  const [occupation, setOccupation] = useState('');
+  const [occupation, setOccupation] = useState("");
   const [goals, setGoals] = useState(null);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [, setFormError] = useState(null);
@@ -69,35 +76,37 @@ function FormSection() {
   const customSelectStyles = {
     control: (base) => ({
       ...base,
-      background: 'rgba(255, 255, 255, 0.05)',
-      border: 'none',
-      boxShadow: 'none',
-      padding: '0',
-      '&:hover': {
-        border: 'none'
-      }
+      background: "rgba(255, 255, 255, 0.05)",
+      border: "none",
+      boxShadow: "none",
+      padding: "0",
+      "&:hover": {
+        border: "none",
+      },
     }),
     option: (base, state) => ({
       ...base,
-      backgroundColor: state.isSelected ? '#5E15EB' : 'rgba(178, 143, 250, 0.31)',
-      color: 'white',
-      '&:hover': {
-        backgroundColor: '#5E15EB'
-      }
+      backgroundColor: state.isSelected
+        ? "#5E15EB"
+        : "rgba(178, 143, 250, 0.31)",
+      color: "white",
+      "&:hover": {
+        backgroundColor: "#5E15EB",
+      },
     }),
     menu: (base) => ({
       ...base,
-      backgroundColor: 'rgba(178, 143, 250, 0.31)',
-      backdropFilter: 'blur(10px)'
+      backgroundColor: "rgba(178, 143, 250, 0.31)",
+      backdropFilter: "blur(10px)",
     }),
     singleValue: (base) => ({
       ...base,
-      color: 'white'
+      color: "white",
     }),
     placeholder: (base) => ({
       ...base,
-      color: 'rgba(255, 255, 255, 0.5)'
-    })
+      color: "rgba(255, 255, 255, 0.5)",
+    }),
   };
 
   const handleSubmit = async (e) => {
@@ -105,11 +114,11 @@ function FormSection() {
     setIsSubmitting(true);
 
     const newErrors = {};
-    if (!insta) newErrors.insta = 'Instagram handle is required';
-    if (!location) newErrors.location = 'Location is required';
-    if (!occupation) newErrors.occupation = 'Occupation is required';
-    if (!goals) newErrors.goals = 'Goals are required';
-    if (!description) newErrors.description = 'Description is required';
+    if (!insta) newErrors.insta = "Instagram handle is required";
+    if (!location) newErrors.location = "Location is required";
+    if (!occupation) newErrors.occupation = "Occupation is required";
+    if (!goals) newErrors.goals = "Goals are required";
+    if (!description) newErrors.description = "Description is required";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -123,20 +132,20 @@ function FormSection() {
         location: location.value,
         goal: goals.value,
         occupation: occupation,
-        comment: description
+        comment: description,
       };
-      
+
       // Update form data in Redux store
       dispatch(updateFormData(formData));
-      
+
       // Move to next step
       dispatch(nextStep());
-      
+
       // Navigate to strategy page
-      navigate('/strategy');
+      navigate("/strategy");
     } catch (error) {
-      console.error('Form submission error:', error);
-      setFormError(error.message || 'Failed to submit form. Please try again.');
+      console.error("Form submission error:", error);
+      setFormError(error.message || "Failed to submit form. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -146,7 +155,7 @@ function FormSection() {
     <div className="min-h-screen flex flex-col px-8">
       <div>
         <RouterLink to="/homepage">
-          <img src={logo} alt="Youvative Logo" className="-mt-7 -ml-10"/>
+          <img src={logo} alt="Youvative Logo" className="-mt-7 -ml-10" />
         </RouterLink>
       </div>
       <div className="max-w-5xl mx-auto  flex-1 flex flex-col -mt-25">
@@ -158,41 +167,44 @@ function FormSection() {
               <MdTaskAlt className="text-gray-500 text-4xl" />
               <MdTaskAlt className="text-gray-500 text-4xl" />
             </div>
-            <h1 className="text-[#5E15EB] text-4xl font-extrabold">Complete Your Profile</h1>
-            <p className="text-white/80  text-lg">Tell us more about yourself and your goals</p>
+            <h1 className="text-[#5E15EB] text-4xl font-extrabold">
+              Complete Your Profile
+            </h1>
+            <p className="text-white/80  text-lg">
+              Tell us more about yourself and your goals
+            </p>
           </div>
 
-          
-            <div className="space-y-4 max-w-xl mx-auto w-full -mt-3">
-              {/* First row: Instagram and Location side by side */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
-                    <FaInstagram className="text-white"/>
-                    <input
-                      className="min-w-[85%] mx-2 pl-3 py-3 self-center bg-transparent text-white outline-none placeholder:content-center placeholder-white/50"
-                      type="text"
-                      placeholder="Instagram"
-                      value={insta}
-                      onChange={(e) => setInsta(e.target.value)}
-                    />
-                  </div>
-                  {errors.insta && (
-                    <div className="text-red-500 text-sm flex items-center mt-1">
-                      <FaExclamationCircle className="mr-1" />
-                      <span>{errors.insta}</span>
-                    </div>
-                  )}
+          <div className="space-y-4 max-w-xl mx-auto w-full -mt-3">
+            {/* First row: Instagram and Location side by side */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
+                  <FaInstagram className="text-white" />
+                  <input
+                    className="min-w-[85%] mx-2 pl-3 py-3 self-center bg-transparent text-white outline-none placeholder:content-center placeholder-white/50"
+                    type="text"
+                    placeholder="Instagram"
+                    value={insta}
+                    onChange={(e) => setInsta(e.target.value)}
+                  />
                 </div>
+                {errors.insta && (
+                  <div className="text-red-500 text-sm flex items-center mt-1">
+                    <FaExclamationCircle className="mr-1" />
+                    <span>{errors.insta}</span>
+                  </div>
+                )}
+              </div>
 
-                <div>
-                  <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
-                    <FaMapMarkerAlt className="text-white mr-2"/>
-                    <Select
-                      styles={customSelectStyles}
-                      options={locationOptions}
-                      value={location}
-                      onChange={setLocation}
+              <div>
+                <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
+                  <FaMapMarkerAlt className="text-white mr-2" />
+                  <Select
+                    styles={customSelectStyles}
+                    options={locationOptions}
+                    value={location}
+                    onChange={setLocation}
                     placeholder="Select Location"
                     className="text-white w-full"
                   />
@@ -204,13 +216,13 @@ function FormSection() {
                   </div>
                 )}
               </div>
-              </div>
+            </div>
 
-              {/* Second row: Occupation and Goals side by side */}
-              <div className="grid grid-cols-2 gap-4">
+            {/* Second row: Occupation and Goals side by side */}
+            <div className="grid grid-cols-2 gap-4">
               <div>
                 <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
-                  <FaBriefcase className="text-white"/>
+                  <FaBriefcase className="text-white" />
                   <input
                     className="min-w-[85%] mx-2 pl-3 py-3 max-h-10 self-center bg-transparent text-white outline-none placeholder:content-center placeholder-white/50"
                     type="text"
@@ -229,7 +241,7 @@ function FormSection() {
 
               <div>
                 <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center h-[52px]">
-                  <FaFlag className="text-white mr-2"/>
+                  <FaFlag className="text-white mr-2" />
                   <Select
                     styles={customSelectStyles}
                     options={goalsOptions}
@@ -246,29 +258,28 @@ function FormSection() {
                   </div>
                 )}
               </div>
-              </div>
             </div>
+          </div>
 
-            {/* Description field remains full width at the bottom */}
-            <div className="space-y-4 max-w-xl mx-auto w-full  mt-4">
-              <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
-                <FaEdit className="text-white"/>
-                <textarea
-                  className="min-w-[85%] mx-2 pl-3 py-3 self-center bg-transparent text-white outline-none placeholder-white/50 resize-none"
-                  placeholder="Tell us about yourself..."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows="2"
-                />
-              </div>
-              {errors.description && (
-                <div className="text-red-500 text-sm flex items-center mt-1">
-                  <FaExclamationCircle className="mr-1" />
-                  <span>{errors.description}</span>
-                </div>
-              )}
+          {/* Description field remains full width at the bottom */}
+          <div className="space-y-4 max-w-xl mx-auto w-full  mt-4">
+            <div className="flex px-4 bg-[#B28FFA4F] justify-start text-lg min-h-13 rounded-md items-center">
+              <FaEdit className="text-white" />
+              <textarea
+                className="min-w-[85%] mx-2 pl-3 py-3 self-center bg-transparent text-white outline-none placeholder-white/50 resize-none"
+                placeholder="Tell us about yourself..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows="2"
+              />
             </div>
-          
+            {errors.description && (
+              <div className="text-red-500 text-sm flex items-center mt-1">
+                <FaExclamationCircle className="mr-1" />
+                <span>{errors.description}</span>
+              </div>
+            )}
+          </div>
 
           <div className="flex flex-col items-center mt-4 pb-20">
             <button
@@ -276,11 +287,11 @@ function FormSection() {
               className="bg-[#5D17E9] text-white text-xl rounded-lg py-3 px-12 font-bold transition-all duration-300 hover:bg-[#4A12BA] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Processing...' : 'Continue to Strategy'}
+              {isSubmitting ? "Processing..." : "Continue to Strategy"}
             </button>
 
-            <RouterLink 
-              to="/signup" 
+            <RouterLink
+              to="/signup"
               className="text-[#9B9B9B] hover:text-white transition-colors duration-300 mt-4"
             >
               Back to Sign Up
