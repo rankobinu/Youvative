@@ -133,7 +133,7 @@ function SignIn() {
       <form onSubmit={handleSubmit}>
         <div className="mx-40">
           <div className="text-center">
-            <h1 className="text-[#5E15EB] text-5xl font-extrabold">
+            <h1 className="text-[#5E15EB] text-5xl font-extrabold -mt-6 mb-9">
               Sign in to Start
             </h1>
 
